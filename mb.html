@@ -5,95 +5,115 @@
 <title>Long-Term Monthly Budget Manager</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <style>
-  :root{
-    --green:#10b981;
-    --red:#ef4444;
-    --gray:#f3f4f6;
-    --dark:#111827;
-    --primary:#4f46e5;
-  }
-  body{font-family:system-ui, sans-serif; margin:0; background:var(--gray); color:var(--dark);} 
-  h1{text-align:center; margin:.5em 0 .2em; font-size:1.6rem}
-  .container{padding:.5rem; max-width:1200px; margin:auto;} 
-  .year-row{display:flex;gap:.5rem;justify-content:center;margin-bottom:1rem; flex-wrap: wrap;}
-  .year-row button, .year-row select {
-    background:var(--primary);
-    color:#fff;
-    border:none;
-    padding:.5rem 1rem;
-    border-radius:.4rem;
-    cursor:pointer;
-    font-size:1rem;
-    transition: .15s;
-  }
-  .year-row button:hover, .year-row select:hover {
-    background:#4338ca;
-  }
-  .table-wrapper{overflow-x:auto; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,.08); border-radius:.5rem;}
-  table{width:100%;border-collapse:collapse;}
-  th,td{padding:.6rem .45rem;font-size:.85rem;text-align:right;border:1px solid #e5e7eb;min-width:72px; white-space:nowrap;} 
-  th{background:var(--primary);color:#fff;position:sticky;top:0;z-index:2}
-  td input{width:100%;border:none;text-align:right;font-size:.85rem;padding:.25rem;background:transparent}
-  td input:focus{outline:2px solid var(--primary)}
-  .cat td{background:#f1f5f9;font-weight:600;text-align:left} 
-  .total td{font-weight:600; background:#f7f8fa;}
-  .net td{font-weight:700; background:#e0f7fa;} 
-  .net-pos{color:var(--green)}
-  .net-neg{color:var(--red)}
-  .col-label{text-align:left !important;}
-  #exportBtn, #importBtn {background: var(--primary);} 
-  @media(min-width:700px){th,td,input{font-size:.95rem;padding:.7rem .55rem}}
+  :root{
+    --green:#10b981;
+    --red:#ef4444;
+    --gray:#f3f4f6;
+    --dark:#111827;
+    --primary:#4f46e5;
+    --secondary: #9333ea; /* Added a secondary color for export/import */
+  }
+  body{font-family:system-ui, sans-serif; margin:0; background:var(--gray); color:var(--dark);} 
+  h1{text-align:center; margin:.5em 0 .2em; font-size:1.6rem}
+  .container{padding:.5rem; max-width:1200px; margin:auto;} 
+  .year-row{display:flex;gap:.5rem;justify-content:center;margin-bottom:1rem; flex-wrap: wrap;}
+  .year-row button, .year-row select {
+    color:#fff;
+    border:none;
+    padding:.5rem 1rem;
+    border-radius:.4rem;
+    cursor:pointer;
+    font-size:1rem;
+    transition: background .15s;
+  }
+  /* Primary buttons */
+  .year-row button:not(#exportBtn):not(#importBtn), .year-row select {
+    background:var(--primary);
+  }
+  .year-row button:not(#exportBtn):not(#importBtn):hover, .year-row select:hover {
+    background:#4338ca;
+  }
+  /* Secondary buttons for utility */
+  #exportBtn, #importBtn {
+    background: var(--secondary);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+  #exportBtn:hover, #importBtn:hover {
+    background: #7e22ce;
+  }
+  .table-wrapper{overflow-x:auto; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,.08); border-radius:.5rem;}
+  table{width:100%;border-collapse:collapse;}
+  th,td{padding:.6rem .45rem;font-size:.85rem;text-align:right;border:1px solid #e5e7eb;min-width:72px; white-space:nowrap;} 
+  th{background:var(--primary);color:#fff;position:sticky;top:0;z-index:2}
+  td input{width:100%;border:none;text-align:right;font-size:.85rem;padding:.25rem;background:transparent}
+  td input:focus{outline:2px solid var(--primary)}
+  .cat td{background:#f1f5f9;font-weight:600;text-align:left} 
+  .total td{font-weight:600; background:#f7f8fa;}
+  .net td{font-weight:700; background:#e0f7fa;} 
+  .net-pos{color:var(--green)}
+  .net-neg{color:var(--red)}
+  .col-label{text-align:left !important;}
+  @media(min-width:700px){th,td,input{font-size:.95rem;padding:.7rem .55rem}}
 </style>
 </head>
 <body>
 
-<div class="container"> 
-  <h1>Monthly Budget & Net-Profit Tracker</h1>
+<div class="container"> 
+  <h1>Monthly Budget & Net-Profit Tracker</h1>
 
-  <div class="year-row">
-    <button id="prevBtn">‹ Prev Year</button>
-    <select id="yearSel"></select>
-    <button id="nextBtn">Next Year ›</button>
-    <button id="exportBtn">Export CSV</button>
-    <button id="importBtn">Import CSV</button>
-    <input type="file" id="importFile" accept=".csv" hidden />
-  </div>
+  <div class="year-row">
+    <button id="prevBtn" title="Previous Year">‹ Prev Year</button>
+    <select id="yearSel"></select>
+    <button id="nextBtn" title="Next Year">Next Year ›</button>
+    <button id="exportBtn" title="Download current year data">Export CSV</button>
+    <button id="importBtn" title="Upload CSV data">Import CSV</button>
+    <input type="file" id="importFile" accept=".csv" hidden />
+  </div>
 
-  <div class="table-wrapper">
-    <table id="budgetTable">
-      <thead>
-        <tr>
-          <th class="col-label">Category / Line</th>
-          <th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th><th>May</th><th>Jun</th>
-          <th>Jul</th><th>Aug</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th>
-          <th>Year Total</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
+  <div class="table-wrapper">
+    <table id="budgetTable">
+      <thead>
+        <tr>
+          <th class="col-label">Category / Line</th>
+          <th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th><th>May</th><th>Jun</th>
+          <th>Jul</th><th>Aug</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th>
+          <th>Year Total</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
 </div>
 
 <script>
+/* ---------- CONFIGURATION ---------- */
 const MONTHS=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const ROWS=[
-  {id:'inc_cat',type:'cat',name:'INCOME'},
-  {id:'inc_job',type:'item',name:'Primary Job (Net)'},
-  {id:'inc_side',type:'item',name:'Side Hustle'},
-  {id:'inc_total',type:'total',name:'TOTAL INCOME',totalOf:['inc_job','inc_side']},
+  {id:'inc_cat',type:'cat',name:'INCOME', index: 0},
+  {id:'inc_job',type:'item',name:'Primary Job (Net)', index: 1},
+  {id:'inc_side',type:'item',name:'Side Hustle', index: 2},
+  {id:'inc_total',type:'total',name:'TOTAL INCOME',totalOf:['inc_job','inc_side'], index: 3},
 
-  {id:'exp_cat',type:'cat',name:'EXPENSES'},
-  {id:'exp_rent',type:'item',name:'Rent / Mortgage'},
-  {id:'exp_loan',type:'item',name:'Loan Payments'},
-  {id:'exp_groceries',type:'item',name:'Groceries'},
-  {id:'exp_utilities',type:'item',name:'Utilities'},
-  {id:'exp_total',type:'total',name:'TOTAL EXPENSES',totalOf:['exp_rent','exp_loan','exp_groceries','exp_utilities']},
+  {id:'exp_cat',type:'cat',name:'EXPENSES', index: 4},
+  {id:'exp_rent',type:'item',name:'Rent / Mortgage', index: 5},
+  {id:'exp_loan',type:'item',name:'Loan Payments', index: 6},
+  {id:'exp_groceries',type:'item',name:'Groceries', index: 7},
+  {id:'exp_utilities',type:'item',name:'Utilities', index: 8},
+  {id:'exp_total',type:'total',name:'TOTAL EXPENSES',totalOf:['exp_rent','exp_loan','exp_groceries','exp_utilities'], index: 9},
 
-  {id:'net',type:'net',name:'NET PROFIT / (LOSS)',netOf:['inc_total','exp_total']}
+  {id:'net',type:'net',name:'NET PROFIT / (LOSS)',netOf:['inc_total','exp_total'], index: 10}
 ];
 
-let currentYear=new Date().getFullYear();
 const STORAGE_KEY='budgetDataV2';
+// Currency Formatter for clean display
+const FORMATTER = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+});
+
+/* ---------- STATE & DOM ACCESS ---------- */
+let currentYear=new Date().getFullYear();
 let db=loadAll();
 
 const tbody=document.querySelector('#budgetTable tbody');
@@ -106,167 +126,225 @@ const importFile=document.getElementById('importFile');
 
 init();
 
+/* ---------- INITIALIZATION & EVENT HANDLERS ---------- */
 function init(){
-  fillYearSelect();
-  renderTable();
+  fillYearSelect();
+  renderTable();
 
-  prevBtn.onclick=()=>changeYear(-1);
-  nextBtn.onclick=()=>changeYear(1);
-  yearSel.onchange=e=>{currentYear=+e.target.value;renderTable();};
-  exportBtn.onclick=exportCSV;
-  importBtn.onclick=()=>importFile.click();
-  importFile.onchange=handleImport;
+  prevBtn.onclick=()=>changeYear(-1);
+  nextBtn.onclick=()=>changeYear(1);
+  yearSel.onchange=e=>{currentYear=+e.target.value;renderTable();};
+  exportBtn.onclick=exportCSV;
+  importBtn.onclick=()=>importFile.click();
+  importFile.onchange=handleImport;
 }
 
 function fillYearSelect(){
-  let base=new Date().getFullYear();
-  for(let y=base-10;y<=base+10;y++){
-    const opt=document.createElement('option');
-    opt.value=y;
-    opt.textContent=y;
-    if(y===base) opt.selected=true;
-    yearSel.appendChild(opt);
-  }
+  let base=new Date().getFullYear();
+  for(let y=base-10;y<=base+10;y++){
+    const opt=document.createElement('option');
+    opt.value=y;
+    opt.textContent=y;
+    if(y===base) opt.selected=true;
+    yearSel.appendChild(opt);
+  }
 }
 function changeYear(dir){
-  let newYear=currentYear+dir;
-  if(yearSel.querySelector(`option[value="${newYear}"]`)){
-    currentYear=newYear;
-    yearSel.value=newYear;
-    renderTable();
-  }
+  let newYear=currentYear+dir;
+  if(yearSel.querySelector(`option[value="${newYear}"]`)){
+    currentYear=newYear;
+    yearSel.value=newYear;
+    renderTable();
+  }
 }
 
+/* ---------- TABLE RENDERING ---------- */
 function renderTable(){
-  tbody.innerHTML='';
-  ROWS.forEach(r=>{
-    const tr=document.createElement('tr');
-    tr.dataset.rowId=r.id;
-    tr.className=r.type;
+  tbody.innerHTML='';
+  ROWS.forEach(r=>{
+    const tr=document.createElement('tr');
+    tr.dataset.rowId=r.id;
+    tr.className=r.type;
 
-    const label=document.createElement('td');
-    label.className='col-label';
-    label.textContent=r.name;
-    tr.appendChild(label);
+    const label=document.createElement('td');
+    label.className='col-label';
+    label.textContent=r.name;
+    tr.appendChild(label);
 
-    MONTHS.forEach((m,mi)=>{
-      const td=document.createElement('td');
-      if(r.type==='item'){
-        const inp=document.createElement('input');
-        inp.type='number';
-        inp.step='0.01';
-        const v=getVal(r.id,mi);
-        inp.value=v?v.toFixed(2):'';
-        inp.onchange=()=>cellChanged(r.id,mi,inp.value);
-        td.appendChild(inp);
-      }
-      tr.appendChild(td);
-    });
+    MONTHS.forEach((m,mi)=>{
+      const td=document.createElement('td');
+      if(r.type==='item'){
+        const inp=document.createElement('input');
+        inp.type='number';
+        inp.step='0.01';
+        inp.inputMode='decimal'; // Added for mobile UX
+        const v=getVal(r.id,mi);
+        // Show formatted value in the input field
+        inp.value=v?v.toFixed(2):'';
+        // Use onblur to ensure the value is saved/calculated when user leaves field
+        inp.onblur=()=>cellChanged(r.id,mi,inp.value); 
+        td.appendChild(inp);
+      }
+      tr.appendChild(td);
+    });
 
-    const ytd=document.createElement('td');
-    ytd.className='yearTotal';
-    tr.appendChild(ytd);
+    const ytd=document.createElement('td');
+    ytd.className='yearTotal';
+    tr.appendChild(ytd);
 
-    tbody.appendChild(tr);
-  });
-  updateTotals();
+    tbody.appendChild(tr);
+  });
+  updateTotals();
 }
 
+/* ---------- DATA MANIPULATION & CALCULATION ---------- */
 function getVal(id,mi){
-  return db[currentYear]?.[id]?.[mi]||0;
+  return db[currentYear]?.[id]?.[mi]||0;
 }
 
 function cellChanged(id,mi,val){
-  let v=parseFloat(val);
-  if(isNaN(v)||v<0) v=0;
-  if(!db[currentYear]) db[currentYear]={};
-  if(!db[currentYear][id]) db[currentYear][id]=Array(12).fill(0);
-  db[currentYear][id][mi]=v;
-  saveAll();
-  updateTotals();
+  // Robust validation: ensures v is a number and is not negative
+  let v=parseFloat(val);
+  v = (isNaN(v) || v < 0) ? 0 : v;
+  
+  if(!db[currentYear]) db[currentYear]={};
+  if(!db[currentYear][id]) db[currentYear][id]=Array(12).fill(0);
+  db[currentYear][id][mi]=v;
+
+  // Update input value to show two decimals immediately
+  const input = tbody.querySelector(`tr[data-row-id="${id}"] td:nth-child(${mi + 2}) input`);
+  if (input) input.value = v.toFixed(2);
+
+  saveAll();
+  updateTotals();
 }
 
 function updateTotals(){
-  if(!db[currentYear]) db[currentYear]={};
+  if(!db[currentYear]) db[currentYear]={};
 
-  ROWS.forEach(r=>{
-    if(r.type==='total'){
-      let arr=Array(12).fill(0);
-      r.totalOf.forEach(id=>{
-        let vals=db[currentYear][id]||Array(12).fill(0);
-        vals.forEach((v,i)=>arr[i]+=parseFloat(v)||0);
-      });
-      db[currentYear][r.id]=arr;
-    }
-  });
+  // 1. Calculate all TOTAL rows
+  ROWS.forEach(r=>{
+    if(r.type==='total'){
+      let arr=Array(12).fill(0);
+      r.totalOf.forEach(id=>{
+        let vals=db[currentYear][id]||Array(12).fill(0);
+        // Use getVal for robustness, although values are already numbers in db
+        vals.forEach((v,i)=>arr[i]+=getVal(id, i)); 
+      });
+      db[currentYear][r.id]=arr;
+    }
+  });
 
-  const netRow=ROWS.find(r=>r.type==='net');
-  if(netRow){
-    const inc=db[currentYear][netRow.netOf[0]]||Array(12).fill(0);
-    const exp=db[currentYear][netRow.netOf[1]]||Array(12).fill(0);
-    db[currentYear][netRow.id]=inc.map((v,i)=>v-exp[i]);
-  }
+  // 2. Calculate NET row
+  const netRow=ROWS.find(r=>r.type==='net');
+  if(netRow){
+    const inc=db[currentYear][netRow.netOf[0]]||Array(12).fill(0); // TOTAL INCOME values
+    const exp=db[currentYear][netRow.netOf[1]]||Array(12).fill(0); // TOTAL EXPENSE values
+    db[currentYear][netRow.id]=inc.map((v,i)=>v-exp[i]);
+  }
 
-  ROWS.forEach(r=>{
-    if(['total','net'].includes(r.type)){
-      const tr=tbody.querySelector(`tr[data-row-id="${r.id}"]`);
-      if(!tr) return;
-      const vals=db[currentYear][r.id]||Array(12).fill(0);
-      vals.forEach((v,i)=>{
-        const td=tr.children[i+1];
-        td.textContent=v.toFixed(2);
-        if(r.type==='net') td.className=v>=0?'net-pos':'net-neg';
-      });
-      const ytd=tr.querySelector('.yearTotal');
-      const sum=vals.reduce((a,b)=>a+b,0);
-      ytd.textContent=sum.toFixed(2);
-      ytd.className=sum>=0?'net-pos':'net-neg';
-    }
-  });
-
-  saveAll();
+  // 3. Render totals to DOM
+  ROWS.forEach(r=>{
+    if(['total','net'].includes(r.type)){
+      const tr=tbody.querySelector(`tr[data-row-id="${r.id}"]`);
+      if(!tr) return;
+      const vals=db[currentYear][r.id]||Array(12).fill(0);
+      
+      vals.forEach((v,i)=>{
+        const td=tr.children[i+1];
+        // Use FORMATTER for currency display
+        td.textContent=FORMATTER.format(v); 
+        if(r.type==='net') td.className=v>=0?'net-pos':'net-neg';
+      });
+      
+      const ytd=tr.querySelector('.yearTotal');
+      const sum=vals.reduce((a,b)=>a+b,0);
+      // Use FORMATTER for currency display
+      ytd.textContent=FORMATTER.format(sum);
+      ytd.className=sum>=0?'net-pos':'net-neg';
+    }
+  });
+  // Don't save here, as cellChanged calls saveAll. Saving only once per user input is sufficient.
 }
 
+/* ---------- CSV LOGIC ---------- */
 function exportCSV(){
-  let d=db[currentYear]||{};
-  let csv='Category,'+MONTHS.join(',')+',Year Total\n';
-  ROWS.forEach(r=>{
-    let vals=d[r.id]||Array(12).fill(0);
-    let row=[r.name,...vals.map(v=>v.toFixed(2)),vals.reduce((a,b)=>a+b,0).toFixed(2)];
-    csv+=row.join(',')+'\n';
-  });
+  // Export only 'item' row data, as totals are calculated and can cause import issues
+  let csv='Category,'+MONTHS.join(',')+'\n';
+  ROWS.filter(r => r.type === 'item').forEach(r=>{
+    // Use raw db values for item rows
+    let vals=db[currentYear]?.[r.id]||Array(12).fill(0); 
+    // Export fixed-2 format for easy re-import
+    let row=[`"${r.name}"`,...vals.map(v=>parseFloat(v).toFixed(2))];
+    csv+=row.join(',')+'\n';
+  });
 
-  const blob=new Blob([csv],{type:'text/csv'});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
-  a.download=`budget_${currentYear}.csv`;
-  a.click();
+  const blob=new Blob([csv],{type:'text/csv'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`budget_input_data_${currentYear}.csv`;
+  a.click();
 }
 
 function handleImport(e){
-  let file=e.target.files[0];
-  if(!file) return;
-  const reader=new FileReader();
-  reader.onload=ev=>{
-    const lines=ev.target.result.split('\n').filter(l=>l.trim());
-    lines.shift();
-    if(!db[currentYear]) db[currentYear]={};
-    lines.forEach((ln,i)=>{
-      let cols=ln.split(',');
-      if(cols.length<14) return;
-      const r=ROWS[i];
-      if(!r) return;
-      db[currentYear][r.id]=cols.slice(1,13).map(v=>Math.max(0,parseFloat(v)||0));
-    });
-    saveAll();
-    renderTable();
-    importFile.value='';
-  };
-  reader.readAsText(file);
+  let file=e.target.files[0];
+  if(!file) return alert('Please select a file.');
+
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const lines=ev.target.result.split('\n').filter(l=>l.trim());
+    if(lines.length < 2) return alert('CSV file is empty or invalid.');
+    
+    lines.shift(); // Remove header row
+
+    const itemRows = ROWS.filter(r => r.type === 'item');
+
+    // Ensure current year object exists
+    if(!db[currentYear]) db[currentYear]={}; 
+    
+    lines.forEach((ln,i)=>{
+      let cols=ln.split(',').map(c => c.replace(/"/g, '')); // Clean up quotes from exported names
+      
+      // Robust check: only process if column count is correct and the row type is 'item'
+      if(cols.length < 13) return; // Category name + 12 months = 13 columns needed
+      
+      const r=itemRows[i]; // Get the matching item row from config
+      
+      // Added check: Confirm the imported category name matches the configured name
+      if(!r || r.name.toLowerCase() !== cols[0].toLowerCase()) {
+        console.warn(`Skipping row ${cols[0]}: Name/position mismatch.`);
+        return;
+      }
+
+      // Map and validate imported values (ensure they are non-negative numbers)
+      db[currentYear][r.id]=cols.slice(1,13).map(v=>Math.max(0,parseFloat(v)||0));
+    });
+    
+    saveAll();
+    renderTable(); // Rerender to show new data
+    importFile.value=''; // Clear file input
+  };
+  reader.readAsText(file);
 }
 
-function saveAll(){localStorage.setItem(STORAGE_KEY,JSON.stringify(db));}
-function loadAll(){return JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');}
+/* ---------- LOCAL STORAGE ---------- */
+function saveAll(){
+  try {
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(db));
+  } catch (e) {
+    console.error('LocalStorage save failed:', e);
+    alert('Warning: Data could not be saved to local storage.');
+  }
+}
+
+function loadAll(){
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');
+  } catch (e) {
+    console.warn('LocalStorage load failed. Starting with empty budget.');
+    return {};
+  }
+}
 </script>
 
 </body>
