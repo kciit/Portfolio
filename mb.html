@@ -4,62 +4,138 @@
 <meta charset="UTF-8" />
 <title>Long-Term Monthly Budget Manager</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
+    /* Color Palette Refined */
     --green:#10b981;
     --red:#ef4444;
-    --gray:#f3f4f6;
-    --dark:#111827;
-    --primary:#4f46e5;
-    --secondary: #9333ea; /* Added a secondary color for export/import */
+    --gray:#f9fafb; /* Lighter background for a cleaner look */
+    --light-gray:#f3f4f6; /* Used for category rows */
+    --dark:#1f2937; /* Slightly softer dark text */
+    --primary:#4f46e5; /* Deep Indigo */
+    --secondary: #9333ea; /* Purple for utility */
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --radius: 0.6rem;
   }
-  body{font-family:system-ui, sans-serif; margin:0; background:var(--gray); color:var(--dark);} 
-  h1{text-align:center; margin:.5em 0 .2em; font-size:1.6rem}
-  .container{padding:.5rem; max-width:1200px; margin:auto;} 
-  .year-row{display:flex;gap:.5rem;justify-content:center;margin-bottom:1rem; flex-wrap: wrap;}
+  /* Used Inter font for a modern, clean look */
+  body{font-family:'Inter', system-ui, sans-serif; margin:0; background:var(--gray); color:var(--dark);} 
+  h1{text-align:center; margin:.8em 0 .4em; font-size:1.8rem; font-weight: 800;}
+  .container{padding:1rem; max-width:1200px; margin:auto;} 
+  
+  /* --- Control Row Styling --- */
+  .year-row{
+    display:flex;
+    gap:.75rem;
+    justify-content:center;
+    margin-bottom:1.5rem;
+    flex-wrap: wrap;
+  }
   .year-row button, .year-row select {
     color:#fff;
     border:none;
-    padding:.5rem 1rem;
-    border-radius:.4rem;
+    padding:.6rem 1.2rem; /* Increased padding */
+    border-radius:var(--radius);
     cursor:pointer;
     font-size:1rem;
-    transition: background .15s;
+    font-weight: 600;
+    transition: all .2s ease; /* Smoother transitions */
+    box-shadow: var(--shadow-sm); /* Added subtle shadow */
+    outline: none;
   }
-  /* Primary buttons */
-  .year-row button:not(#exportBtn):not(#importBtn), .year-row select {
+  /* Primary (Navigation) */
+  .year-row button:not(#exportBtn):not(#importBtn):not(#clearBtn), .year-row select {
     background:var(--primary);
   }
-  .year-row button:not(#exportBtn):not(#importBtn):hover, .year-row select:hover {
+  .year-row button:not(#exportBtn):not(#importBtn):not(#clearBtn):hover, .year-row select:hover {
     background:#4338ca;
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
   }
-  /* Secondary buttons for utility */
-  #exportBtn, #importBtn {
-    background: var(--secondary);
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  /* Secondary (Utility) */
+  #exportBtn, #importBtn { background: var(--secondary); }
+  #exportBtn:hover, #importBtn:hover { background: #7e22ce; box-shadow: var(--shadow-md); transform: translateY(-1px); }
+  /* Danger/Warning (Clear) */
+  #clearBtn { background: var(--red); }
+  #clearBtn:hover { background: #c52929; box-shadow: var(--shadow-md); transform: translateY(-1px); }
+
+  /* --- Table Styling --- */
+  .table-wrapper{
+    overflow-x:auto; 
+    background:#fff; 
+    box-shadow:var(--shadow-md); /* Stronger table shadow */
+    border-radius:var(--radius);
   }
-  #exportBtn:hover, #importBtn:hover {
-    background: #7e22ce;
+  table{width:100%;border-collapse:separate; border-spacing: 0;} /* Use separate borders for rounded look */
+  
+  /* Table Header */
+  th{
+    background:var(--primary);
+    color:#fff;
+    position:sticky;
+    top:0;
+    z-index:2;
+    font-weight: 700;
   }
-  .table-wrapper{overflow-x:auto; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,.08); border-radius:.5rem;}
-  table{width:100%;border-collapse:collapse;}
-  th,td{padding:.6rem .45rem;font-size:.85rem;text-align:right;border:1px solid #e5e7eb;min-width:72px; white-space:nowrap;} 
-  th{background:var(--primary);color:#fff;position:sticky;top:0;z-index:2}
-  td input{width:100%;border:none;text-align:right;font-size:.85rem;padding:.25rem;background:transparent}
-  td input:focus{outline:2px solid var(--primary)}
-  .cat td{background:#f1f5f9;font-weight:600;text-align:left} 
-  .total td{font-weight:600; background:#f7f8fa;}
-  .net td{font-weight:700; background:#e0f7fa;} 
+  /* Rounded corners for the header */
+  .table-wrapper table th:first-child { border-top-left-radius: var(--radius); }
+  .table-wrapper table th:last-child { border-top-right-radius: var(--radius); }
+
+  /* Cells */
+  th,td{
+    padding:.7rem .55rem; /* Increased padding for spaciousness */
+    font-size:.9rem;
+    text-align:right;
+    border:1px solid #e5e7eb;
+    min-width:80px; 
+    white-space:nowrap;
+  } 
+  
+  /* Input Fields */
+  td input{
+    width:100%;
+    border:none;
+    text-align:right;
+    font-size:.9rem;
+    padding:.25rem 0;
+    background:transparent;
+    transition: outline .15s;
+  }
+  td input:focus{
+    outline:2px solid var(--primary);
+    border-radius: 4px;
+  }
+  
+  /* Row Types */
+  .cat td{
+    background:var(--light-gray); /* Lighter background for category */
+    font-weight:700;
+    text-align:left;
+  } 
+  .total td{
+    font-weight:700; 
+    background:#eef2ff; /* Light primary color for total rows */
+  }
+  .net td{
+    font-weight:800; /* Extra bold */
+    background:#f0fdf4; /* Very light green/blue for net */
+  } 
   .net-pos{color:var(--green)}
   .net-neg{color:var(--red)}
   .col-label{text-align:left !important;}
-  @media(min-width:700px){th,td,input{font-size:.95rem;padding:.7rem .55rem}}
+
+  @media(min-width:700px){
+    th,td,input{font-size:1rem;padding:.8rem .65rem}
+  }
 </style>
 </head>
 <body>
 
 <div class="container"> 
-  <h1>Monthly Budget & Net-Profit Tracker</h1>
+  <h1>📊 Monthly Budget & Net-Profit Tracker</h1>
 
   <div class="year-row">
     <button id="prevBtn" title="Previous Year">‹ Prev Year</button>
@@ -67,9 +143,10 @@
     <button id="nextBtn" title="Next Year">Next Year ›</button>
     <button id="exportBtn" title="Download current year data">Export CSV</button>
     <button id="importBtn" title="Upload CSV data">Import CSV</button>
+    <button id="clearBtn" title="Clear ALL data for the current year (irreversible)">Clear Year</button>
     <input type="file" id="importFile" accept=".csv" hidden />
   </div>
-
+    
   <div class="table-wrapper">
     <table id="budgetTable">
       <thead>
@@ -89,19 +166,19 @@
 /* ---------- CONFIGURATION ---------- */
 const MONTHS=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const ROWS=[
-  {id:'inc_cat',type:'cat',name:'INCOME', index: 0},
-  {id:'inc_job',type:'item',name:'Primary Job (Net)', index: 1},
-  {id:'inc_side',type:'item',name:'Side Hustle', index: 2},
-  {id:'inc_total',type:'total',name:'TOTAL INCOME',totalOf:['inc_job','inc_side'], index: 3},
+  {id:'inc_cat',type:'cat',name:'INCOME'},
+  {id:'inc_job',type:'item',name:'Primary Job (Net)'},
+  {id:'inc_side',type:'item',name:'Side Hustle'},
+  {id:'inc_total',type:'total',name:'TOTAL INCOME',totalOf:['inc_job','inc_side']},
 
-  {id:'exp_cat',type:'cat',name:'EXPENSES', index: 4},
-  {id:'exp_rent',type:'item',name:'Rent / Mortgage', index: 5},
-  {id:'exp_loan',type:'item',name:'Loan Payments', index: 6},
-  {id:'exp_groceries',type:'item',name:'Groceries', index: 7},
-  {id:'exp_utilities',type:'item',name:'Utilities', index: 8},
-  {id:'exp_total',type:'total',name:'TOTAL EXPENSES',totalOf:['exp_rent','exp_loan','exp_groceries','exp_utilities'], index: 9},
+  {id:'exp_cat',type:'cat',name:'EXPENSES'},
+  {id:'exp_rent',type:'item',name:'Rent / Mortgage'},
+  {id:'exp_loan',type:'item',name:'Loan Payments'},
+  {id:'exp_groceries',type:'item',name:'Groceries'},
+  {id:'exp_utilities',type:'item',name:'Utilities'},
+  {id:'exp_total',type:'total',name:'TOTAL EXPENSES',totalOf:['exp_rent','exp_loan','exp_groceries','exp_utilities']},
 
-  {id:'net',type:'net',name:'NET PROFIT / (LOSS)',netOf:['inc_total','exp_total'], index: 10}
+  {id:'net',type:'net',name:'NET PROFIT / (LOSS)',netOf:['inc_total','exp_total']}
 ];
 
 const STORAGE_KEY='budgetDataV2';
@@ -123,6 +200,7 @@ const nextBtn=document.getElementById('nextBtn');
 const exportBtn=document.getElementById('exportBtn');
 const importBtn=document.getElementById('importBtn');
 const importFile=document.getElementById('importFile');
+const clearBtn=document.getElementById('clearBtn'); // New button
 
 init();
 
@@ -137,6 +215,7 @@ function init(){
   exportBtn.onclick=exportCSV;
   importBtn.onclick=()=>importFile.click();
   importFile.onchange=handleImport;
+  clearBtn.onclick=clearYearData; // New handler
 }
 
 function fillYearSelect(){
@@ -177,11 +256,9 @@ function renderTable(){
         const inp=document.createElement('input');
         inp.type='number';
         inp.step='0.01';
-        inp.inputMode='decimal'; // Added for mobile UX
+        inp.inputMode='decimal'; 
         const v=getVal(r.id,mi);
-        // Show formatted value in the input field
         inp.value=v?v.toFixed(2):'';
-        // Use onblur to ensure the value is saved/calculated when user leaves field
         inp.onblur=()=>cellChanged(r.id,mi,inp.value); 
         td.appendChild(inp);
       }
@@ -203,7 +280,6 @@ function getVal(id,mi){
 }
 
 function cellChanged(id,mi,val){
-  // Robust validation: ensures v is a number and is not negative
   let v=parseFloat(val);
   v = (isNaN(v) || v < 0) ? 0 : v;
   
@@ -211,7 +287,6 @@ function cellChanged(id,mi,val){
   if(!db[currentYear][id]) db[currentYear][id]=Array(12).fill(0);
   db[currentYear][id][mi]=v;
 
-  // Update input value to show two decimals immediately
   const input = tbody.querySelector(`tr[data-row-id="${id}"] td:nth-child(${mi + 2}) input`);
   if (input) input.value = v.toFixed(2);
 
@@ -222,28 +297,25 @@ function cellChanged(id,mi,val){
 function updateTotals(){
   if(!db[currentYear]) db[currentYear]={};
 
-  // 1. Calculate all TOTAL rows
   ROWS.forEach(r=>{
     if(r.type==='total'){
       let arr=Array(12).fill(0);
       r.totalOf.forEach(id=>{
-        let vals=db[currentYear][id]||Array(12).fill(0);
-        // Use getVal for robustness, although values are already numbers in db
-        vals.forEach((v,i)=>arr[i]+=getVal(id, i)); 
+        for(let i=0; i<12; i++){
+          arr[i]+=getVal(id, i);
+        }
       });
       db[currentYear][r.id]=arr;
     }
   });
 
-  // 2. Calculate NET row
   const netRow=ROWS.find(r=>r.type==='net');
   if(netRow){
-    const inc=db[currentYear][netRow.netOf[0]]||Array(12).fill(0); // TOTAL INCOME values
-    const exp=db[currentYear][netRow.netOf[1]]||Array(12).fill(0); // TOTAL EXPENSE values
+    const inc=db[currentYear][netRow.netOf[0]]||Array(12).fill(0);
+    const exp=db[currentYear][netRow.netOf[1]]||Array(12).fill(0);
     db[currentYear][netRow.id]=inc.map((v,i)=>v-exp[i]);
   }
 
-  // 3. Render totals to DOM
   ROWS.forEach(r=>{
     if(['total','net'].includes(r.type)){
       const tr=tbody.querySelector(`tr[data-row-id="${r.id}"]`);
@@ -252,29 +324,32 @@ function updateTotals(){
       
       vals.forEach((v,i)=>{
         const td=tr.children[i+1];
-        // Use FORMATTER for currency display
         td.textContent=FORMATTER.format(v); 
-        if(r.type==='net') td.className=v>=0?'net-pos':'net-neg';
+        td.className = r.type + (r.type === 'net' ? (v >= 0 ? ' net-pos' : ' net-neg') : '');
       });
       
       const ytd=tr.querySelector('.yearTotal');
       const sum=vals.reduce((a,b)=>a+b,0);
-      // Use FORMATTER for currency display
       ytd.textContent=FORMATTER.format(sum);
-      ytd.className=sum>=0?'net-pos':'net-neg';
+      ytd.className='yearTotal' + (r.type === 'net' ? (sum >= 0 ? ' net-pos' : ' net-neg') : '');
     }
   });
-  // Don't save here, as cellChanged calls saveAll. Saving only once per user input is sufficient.
 }
 
-/* ---------- CSV LOGIC ---------- */
+/* ---------- UTILITY FUNCTIONS ---------- */
+function clearYearData(){
+  if(confirm(`Are you sure you want to clear all data for the year ${currentYear}? This action cannot be undone.`)){
+    delete db[currentYear];
+    saveAll();
+    renderTable();
+    alert(`Data for ${currentYear} has been cleared.`);
+  }
+}
+
 function exportCSV(){
-  // Export only 'item' row data, as totals are calculated and can cause import issues
   let csv='Category,'+MONTHS.join(',')+'\n';
   ROWS.filter(r => r.type === 'item').forEach(r=>{
-    // Use raw db values for item rows
     let vals=db[currentYear]?.[r.id]||Array(12).fill(0); 
-    // Export fixed-2 format for easy re-import
     let row=[`"${r.name}"`,...vals.map(v=>parseFloat(v).toFixed(2))];
     csv+=row.join(',')+'\n';
   });
@@ -295,39 +370,35 @@ function handleImport(e){
     const lines=ev.target.result.split('\n').filter(l=>l.trim());
     if(lines.length < 2) return alert('CSV file is empty or invalid.');
     
-    lines.shift(); // Remove header row
+    lines.shift(); 
 
     const itemRows = ROWS.filter(r => r.type === 'item');
 
-    // Ensure current year object exists
     if(!db[currentYear]) db[currentYear]={}; 
     
     lines.forEach((ln,i)=>{
-      let cols=ln.split(',').map(c => c.replace(/"/g, '')); // Clean up quotes from exported names
+      let cols=ln.split(',').map(c => c.replace(/"/g, ''));
       
-      // Robust check: only process if column count is correct and the row type is 'item'
-      if(cols.length < 13) return; // Category name + 12 months = 13 columns needed
+      if(cols.length < 13) return;
       
-      const r=itemRows[i]; // Get the matching item row from config
+      const r=itemRows[i];
       
-      // Added check: Confirm the imported category name matches the configured name
       if(!r || r.name.toLowerCase() !== cols[0].toLowerCase()) {
         console.warn(`Skipping row ${cols[0]}: Name/position mismatch.`);
         return;
       }
 
-      // Map and validate imported values (ensure they are non-negative numbers)
       db[currentYear][r.id]=cols.slice(1,13).map(v=>Math.max(0,parseFloat(v)||0));
     });
     
     saveAll();
-    renderTable(); // Rerender to show new data
-    importFile.value=''; // Clear file input
+    renderTable();
+    importFile.value=''; 
   };
   reader.readAsText(file);
 }
 
-/* ---------- LOCAL STORAGE ---------- */
+/* ---------- LOCAL STORAGE (Persistence) ---------- */
 function saveAll(){
   try {
     localStorage.setItem(STORAGE_KEY,JSON.stringify(db));
