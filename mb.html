@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Long-Term Monthly Budget Manager</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --green:#10b981;
+    --red:#ef4444;
+    --gray:#f3f4f6;
+    --dark:#111827;
+    --primary:#4f46e5;
+  }
+  body{font-family:system-ui, sans-serif; margin:0; background:var(--gray); color:var(--dark);}
+  h1{text-align:center; margin:.5em 0 .2em; font-size:1.6rem}
+  .year-row{display:flex;gap:.5rem;justify-content:center;margin-bottom:1rem}
+  .year-row button{background:var(--primary);color:#fff;border:none;padding:.4rem .8rem;border-radius:.3rem;cursor:pointer}
+  .year-row select{padding:.4rem;font-size:1rem;border-radius:.3rem;border:1px solid #bbb}
+  table{width:100%;border-collapse:collapse;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.08);}
+  th,td{padding:.45rem .35rem;font-size:.8rem;text-align:right;border:1px solid #e5e7eb;min-width:64px}
+  th{background:var(--primary);color:#fff;position:sticky;top:0;z-index:2}
+  td input{width:100%;border:none;text-align:right;font-size:.8rem;padding:.25rem;background:transparent}
+  td input:focus{outline:2px solid var(--primary)}
+  .cat td{background:#fafafa;font-weight:600;text-align:left}
+  .net td{font-weight:700}
+  .net-pos{color:var(--green)}
+  .net-neg{color:var(--red)}
+  @media(min-width:700px){th,td,input{font-size:.9rem;padding:.55rem .45rem}}
+</style>
+</head>
+<body>
+
+<h1>Monthly Budget & Net-Profit Tracker</h1>
+
+<div class="year-row">
+  <button id="prevBtn">‹ Prev Year</button>
+  <select id="yearSel"></select>
+  <button id="nextBtn">Next Year ›</button>
+</div>
+
+<table id="budgetTable">
+  <thead>
+    <tr>
+      <th style="text-align:left">Category / Line</th>
+      <th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th><th>May</th><th>Jun</th>
+      <th>Jul</th><th>Aug</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th>
+      <th>Year Total</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script>
+/* ---------- CONFIGURATION ---------- */
+const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const rows = [
+  {type:'cat', name:'INCOME'},
+  {type:'item',name:'Primary Job (Net)', section:'inc'},
+  {type:'item',name:'Side Hustle',      section:'inc'},
+  {type:'total',name:'TOTAL INCOME',    section:'inc'},
+
+  {type:'cat', name:'EXPENSES'},
+  {type:'item',name:'Rent / Mortgage',  section:'exp'},
+  {type:'item',name:'Loan Payments',    section:'exp'},
+  {type:'item',name:'Groceries',        section:'exp'},
+  {type:'item',name:'Utilities',        section:'exp'},
+  {type:'total',name:'TOTAL EXPENSES',  section:'exp'},
+
+  {type:'net', name:'NET PROFIT / (LOSS)'}
+];
+const STORAGE_KEY = 'budgetData';
+
+/* ---------- STATE ---------- */
+let currentYear = new Date().getFullYear();
+let db = loadAll(); // db[year][row][month] = number
+
+/* ---------- DOM ---------- */
+const tbody = document.querySelector('#budgetTable tbody');
+const yearSel = document.getElementById('yearSel');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+/* ---------- INIT ---------- */
+fillYearSelect();
+renderTable();
+attachListeners();
+
+/* ---------- YEAR NAVIGATION ---------- */
+function fillYearSelect(){
+  const y = new Date().getFullYear();
+  for(let i=y-5;i<=y+5;i++){
+    const opt=document.createElement('option'); opt.value=i; opt.textContent=i;
+    yearSel.appendChild(opt); if(i===y) opt.selected=true;
+  }
+}
+prevBtn.onclick=()=>changeYear(-1);
+nextBtn.onclick=()=>changeYear(1);
+yearSel.onchange=(e)=>{ currentYear=+e.target.value; renderTable(); };
+
+function changeYear(dir){
+  currentYear+=dir;
+  yearSel.value=currentYear;
+  renderTable();
+}
+
+/* ---------- TABLE RENDER ---------- */
+function renderTable(){
+  tbody.innerHTML='';
+  rows.forEach((r,ri)=>{
+    const tr=document.createElement('tr');
+    if(r.type==='cat') tr.className='cat';
+    if(r.type==='net') tr.className='net';
+
+    // label
+    const lab=document.createElement('td'); lab.style.textAlign='left'; lab.textContent=r.name; tr.appendChild(lab);
+
+    // 12 months
+    months.forEach((m,mi)=>{
+      const td=document.createElement('td');
+      if(r.type==='item'){
+        const inp=document.createElement('input');
+        inp.type='number'; inp.step='0.01';
+        inp.value= (db[currentYear] && db[currentYear][ri] && db[currentYear][ri][mi]) || '';
+        inp.oninput=()=>cellChanged(ri,mi,inp.value);
+        td.appendChild(inp);
+      }else{
+        td.className='monthTotal';
+      }
+      tr.appendChild(td);
+    });
+
+    // year total
+    const yt=document.createElement('td'); yt.className='yearTotal'; tr.appendChild(yt);
+    tbody.appendChild(tr);
+  });
+  updateTotals();
+}
+
+/* ---------- CALC & STORAGE ---------- */
+function cellChanged(ri,mi,val){
+  if(!db[currentYear]) db[currentYear]={};
+  if(!db[currentYear][ri]) db[currentYear][ri]=Array(12).fill(0);
+  db[currentYear][ri][mi]=parseFloat(val)||0;
+  saveAll();
+  updateTotals();
+}
+function updateTotals(){
+  const yearData = db[currentYear] || {};
+  const incRows = rows.map((r,i)=>r.section==='inc'?i:0).filter(Boolean);
+  const expRows = rows.map((r,i)=>r.section==='exp'?i:0).filter(Boolean);
+
+  // month totals
+  months.forEach((_,mi)=>{
+    let inc=0, exp=0;
+    incRows.forEach(ri=> inc+=(yearData[ri]&&yearData[ri][mi])||0);
+    expRows.forEach(ri=> exp+=(yearData[ri]&&yearData[ri][mi])||0);
+    // write to TOTAL INCOME row
+    if(!yearData[3]) yearData[3]=Array(12).fill(0); yearData[3][mi]=inc;
+    // write to TOTAL EXPENSES row
+    if(!yearData[8]) yearData[8]=Array(12).fill(0); yearData[8][mi]=exp;
+    // net
+    if(!yearData[9]) yearData[9]=Array(12).fill(0); yearData[9][mi]=inc-exp;
+  });
+
+  // render month totals & year totals
+  rows.forEach((r,ri)=>{
+    if(r.type!=='item'){
+      const tr=tbody.children[ri];
+      let yrSum=0;
+      months.forEach((_,mi)=>{
+        const v=(yearData[ri]&&yearData[ri][mi])||0;
+        yrSum+=v;
+        if(r.type==='net'){
+          tr.children[mi+1].textContent=v.toFixed(2);
+          tr.children[mi+1].className= v>=0 ? 'net-pos' : 'net-neg';
+        }else{
+          tr.children[mi+1].textContent=v.toFixed(2);
+        }
+      });
+      tr.querySelector('.yearTotal').textContent=yrSum.toFixed(2);
+      if(r.type==='net') tr.querySelector('.yearTotal').className= yrSum>=0 ? 'yearTotal net-pos' : 'yearTotal net-neg';
+    }
+  });
+}
+
+/* ---------- LOCAL STORAGE ---------- */
+function saveAll(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(db)); }
+function loadAll(){
+  try{ return JSON.parse(localStorage.getItem(STORAGE_KEY))||{}; }catch(e){ return {}; }
+}
+</script>
+</body>
+</html>
