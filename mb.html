@@ -14,180 +14,293 @@
   }
   body{font-family:system-ui, sans-serif; margin:0; background:var(--gray); color:var(--dark);}
   h1{text-align:center; margin:.5em 0 .2em; font-size:1.6rem}
+  /* Added container for better spacing on large screens */
+  .container{padding:.5rem; max-width:1200px; margin:auto;} 
   .year-row{display:flex;gap:.5rem;justify-content:center;margin-bottom:1rem}
-  .year-row button{background:var(--primary);color:#fff;border:none;padding:.4rem .8rem;border-radius:.3rem;cursor:pointer}
+  .year-row button{background:var(--primary);color:#fff;border:none;padding:.4rem .8rem;border-radius:.3rem;cursor:pointer; transition: background .15s;}
+  .year-row button:hover{background:#4338ca;}
   .year-row select{padding:.4rem;font-size:1rem;border-radius:.3rem;border:1px solid #bbb}
-  table{width:100%;border-collapse:collapse;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.08);}
-  th,td{padding:.45rem .35rem;font-size:.8rem;text-align:right;border:1px solid #e5e7eb;min-width:64px}
+  /* Added wrapper for horizontal scrolling on small screens */
+  .table-wrapper{overflow-x:auto; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,.08); border-radius:.5rem;}
+  table{width:100%;border-collapse:collapse;}
+  /* Added white-space:nowrap to prevent month columns from wrapping */
+  th,td{padding:.45rem .35rem;font-size:.8rem;text-align:right;border:1px solid #e5e7eb;min-width:64px; white-space:nowrap;} 
   th{background:var(--primary);color:#fff;position:sticky;top:0;z-index:2}
   td input{width:100%;border:none;text-align:right;font-size:.8rem;padding:.25rem;background:transparent}
   td input:focus{outline:2px solid var(--primary)}
-  .cat td{background:#fafafa;font-weight:600;text-align:left}
-  .net td{font-weight:700}
+  /* Improved styling for category and total rows */
+  .cat td{background:#f1f5f9;font-weight:600;text-align:left} 
+  .total td{font-weight:600; background:#f7f8fa;}
+  .net td{font-weight:700; background:#e0f7fa;} 
   .net-pos{color:var(--green)}
   .net-neg{color:var(--red)}
+  .col-label{text-align:left !important;}
+  /* Responsive font size adjustment */
   @media(min-width:700px){th,td,input{font-size:.9rem;padding:.55rem .45rem}}
 </style>
 </head>
 <body>
 
-<h1>Monthly Budget & Net-Profit Tracker</h1>
+<div class="container"> 
+  <h1>Monthly Budget & Net-Profit Tracker</h1>
 
-<div class="year-row">
-  <button id="prevBtn">‹ Prev Year</button>
-  <select id="yearSel"></select>
-  <button id="nextBtn">Next Year ›</button>
+  <div class="year-row">
+    <button id="prevBtn" title="Previous Year">‹ Prev Year</button>
+    <select id="yearSel"></select>
+    <button id="nextBtn" title="Next Year">Next Year ›</button>
+  </div>
+
+  <div class="table-wrapper">
+    <table id="budgetTable">
+      <thead>
+        <tr>
+          <th class="col-label" style="text-align:left">Category / Line</th>
+          <th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th><th>May</th><th>Jun</th>
+          <th>Jul</th><th>Aug</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th>
+          <th>Year Total</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
 </div>
-
-<table id="budgetTable">
-  <thead>
-    <tr>
-      <th style="text-align:left">Category / Line</th>
-      <th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th><th>May</th><th>Jun</th>
-      <th>Jul</th><th>Aug</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th>
-      <th>Year Total</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>
 
 <script>
 /* ---------- CONFIGURATION ---------- */
-const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const rows = [
-  {type:'cat', name:'INCOME'},
-  {type:'item',name:'Primary Job (Net)', section:'inc'},
-  {type:'item',name:'Side Hustle',      section:'inc'},
-  {type:'total',name:'TOTAL INCOME',    section:'inc'},
-
-  {type:'cat', name:'EXPENSES'},
-  {type:'item',name:'Rent / Mortgage',  section:'exp'},
-  {type:'item',name:'Loan Payments',    section:'exp'},
-  {type:'item',name:'Groceries',        section:'exp'},
-  {type:'item',name:'Utilities',        section:'exp'},
-  {type:'total',name:'TOTAL EXPENSES',  section:'exp'},
-
-  {type:'net', name:'NET PROFIT / (LOSS)'}
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+// Use stable IDs and explicit relationships (totalOf, netOf)
+const ROWS = [
+  {id:'inc_cat', type:'cat', name:'INCOME'},
+  {id:'inc_job', type:'item', name:'Primary Job (Net)', section:'inc'},
+  {id:'inc_side', type:'item', name:'Side Hustle', section:'inc'},
+  {id:'inc_total', type:'total', name:'TOTAL INCOME', totalOf:['inc_job', 'inc_side']}, 
+  
+  {id:'exp_cat', type:'cat', name:'EXPENSES'},
+  {id:'exp_rent', type:'item', name:'Rent / Mortgage', section:'exp'},
+  {id:'exp_loan', type:'item', name:'Loan Payments', section:'exp'},
+  {id:'exp_groceries', type:'item', name:'Groceries', section:'exp'},
+  {id:'exp_utilities', type:'item', name:'Utilities', section:'exp'},
+  {id:'exp_total', type:'total', name:'TOTAL EXPENSES', totalOf:['exp_rent', 'exp_loan', 'exp_groceries', 'exp_utilities']}, 
+  
+  {id:'net', type:'net', name:'NET PROFIT / (LOSS)', netOf:['inc_total', 'exp_total']}
 ];
 const STORAGE_KEY = 'budgetData';
+const FORMATTER = new Intl.NumberFormat('en-US', { // Currency formatter for clean display
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+});
 
-/* ---------- STATE ---------- */
+
+/* ---------- STATE & DOM ACCESS ---------- */
 let currentYear = new Date().getFullYear();
-let db = loadAll(); // db[year][row][month] = number
+// db[year][rowId][monthIndex] = number
+let db = loadAll(); 
 
-/* ---------- DOM ---------- */
 const tbody = document.querySelector('#budgetTable tbody');
 const yearSel = document.getElementById('yearSel');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
 
-/* ---------- INIT ---------- */
+
+/* ---------- INIT & EVENT LISTENERS ---------- */
 fillYearSelect();
 renderTable();
-attachListeners();
 
-/* ---------- YEAR NAVIGATION ---------- */
-function fillYearSelect(){
-  const y = new Date().getFullYear();
-  for(let i=y-5;i<=y+5;i++){
-    const opt=document.createElement('option'); opt.value=i; opt.textContent=i;
-    yearSel.appendChild(opt); if(i===y) opt.selected=true;
-  }
-}
+// Year navigation handlers
 prevBtn.onclick=()=>changeYear(-1);
 nextBtn.onclick=()=>changeYear(1);
 yearSel.onchange=(e)=>{ currentYear=+e.target.value; renderTable(); };
 
+// Function to handle year buttons
 function changeYear(dir){
   currentYear+=dir;
-  yearSel.value=currentYear;
-  renderTable();
+  // Ensure the new year is within the select options range (for simplicity)
+  if(yearSel.querySelector(`option[value="${currentYear}"]`)){
+    yearSel.value=currentYear;
+    renderTable();
+  } else {
+    currentYear-=dir; // Revert if out of bounds
+  }
 }
 
-/* ---------- TABLE RENDER ---------- */
+// Function to populate the year selection dropdown
+function fillYearSelect(){
+  const y = new Date().getFullYear();
+  // Provide a generous range
+  for(let i=y-10;i<=y+10;i++){ 
+    const opt=document.createElement('option'); opt.value=i; opt.textContent=i;
+    yearSel.appendChild(opt); if(i===y) opt.selected=true;
+  }
+}
+
+
+/* ---------- TABLE RENDER & INPUT HANDLING ---------- */
 function renderTable(){
   tbody.innerHTML='';
-  rows.forEach((r,ri)=>{
+  ROWS.forEach((r)=>{
     const tr=document.createElement('tr');
-    if(r.type==='cat') tr.className='cat';
-    if(r.type==='net') tr.className='net';
+    tr.className = r.type; 
+    tr.dataset.rowId = r.id; // Crucial for stable calculations
 
-    // label
-    const lab=document.createElement('td'); lab.style.textAlign='left'; lab.textContent=r.name; tr.appendChild(lab);
+    // Label Column
+    const lab=document.createElement('td'); 
+    lab.className = 'col-label';
+    lab.textContent=r.name; 
+    tr.appendChild(lab);
 
-    // 12 months
-    months.forEach((m,mi)=>{
+    // 12 Month Columns
+    MONTHS.forEach((m,mi)=>{
       const td=document.createElement('td');
       if(r.type==='item'){
         const inp=document.createElement('input');
-        inp.type='number'; inp.step='0.01';
-        inp.value= (db[currentYear] && db[currentYear][ri] && db[currentYear][ri][mi]) || '';
-        inp.oninput=()=>cellChanged(ri,mi,inp.value);
+        inp.type='number'; 
+        inp.step='0.01';
+        inp.inputMode='decimal'; 
+        
+        // Get value from data structure using row ID
+        const value = (db[currentYear] && db[currentYear][r.id] && db[currentYear][r.id][mi]) || 0;
+        inp.value = value ? parseFloat(value).toFixed(2) : ''; 
+        
+        // Use 'onblur' and 'onchange' to capture updates and format input
+        inp.onblur=()=>cellChanged(r.id, mi, inp.value); 
+        inp.onchange=()=>cellChanged(r.id, mi, inp.value);
+        
         td.appendChild(inp);
-      }else{
+      } else {
         td.className='monthTotal';
+        // Content will be filled by updateTotals
       }
       tr.appendChild(td);
     });
 
-    // year total
-    const yt=document.createElement('td'); yt.className='yearTotal'; tr.appendChild(yt);
+    // Year Total Column
+    const yt=document.createElement('td'); 
+    yt.className='yearTotal'; 
+    tr.appendChild(yt);
     tbody.appendChild(tr);
   });
-  updateTotals();
+  updateTotals(); // Calculate and display totals immediately
 }
 
-/* ---------- CALC & STORAGE ---------- */
-function cellChanged(ri,mi,val){
+function cellChanged(rowId, monthIndex, valStr){
+  // Ensure input is stored as a number (or 0 if empty/invalid)
+  const val = parseFloat(valStr) || 0; 
+  
+  // 1. Update State (db)
   if(!db[currentYear]) db[currentYear]={};
-  if(!db[currentYear][ri]) db[currentYear][ri]=Array(12).fill(0);
-  db[currentYear][ri][mi]=parseFloat(val)||0;
+  if(!db[currentYear][rowId]) db[currentYear][rowId]=Array(12).fill(0); 
+  
+  db[currentYear][rowId][monthIndex]=val;
+  
+  // 2. Save and Recalculate
   saveAll();
   updateTotals();
+
+  // 3. Reformat input field to show two decimals for clean display
+  const input = tbody.querySelector(`tr[data-row-id="${rowId}"] td:nth-child(${monthIndex + 2}) input`);
+  if (input) {
+    input.value = val.toFixed(2);
+  }
 }
+
+
+/* ---------- CALCULATION LOGIC ---------- */
 function updateTotals(){
   const yearData = db[currentYear] || {};
-  const incRows = rows.map((r,i)=>r.section==='inc'?i:0).filter(Boolean);
-  const expRows = rows.map((r,i)=>r.section==='exp'?i:0).filter(Boolean);
+  let calculatedTotals = {}; // Stores calculated month arrays and year sums by ID
 
-  // month totals
-  months.forEach((_,mi)=>{
-    let inc=0, exp=0;
-    incRows.forEach(ri=> inc+=(yearData[ri]&&yearData[ri][mi])||0);
-    expRows.forEach(ri=> exp+=(yearData[ri]&&yearData[ri][mi])||0);
-    // write to TOTAL INCOME row
-    if(!yearData[3]) yearData[3]=Array(12).fill(0); yearData[3][mi]=inc;
-    // write to TOTAL EXPENSES row
-    if(!yearData[8]) yearData[8]=Array(12).fill(0); yearData[8][mi]=exp;
-    // net
-    if(!yearData[9]) yearData[9]=Array(12).fill(0); yearData[9][mi]=inc-exp;
+  // 1. Calculate all TOTAL rows (Income and Expenses)
+  ROWS.filter(r => r.type === 'total').forEach(totalRow => {
+    let monthTotals = Array(12).fill(0);
+    
+    totalRow.totalOf.forEach(itemId => {
+      const itemData = yearData[itemId] || Array(12).fill(0);
+      itemData.forEach((val, mi) => {
+        monthTotals[mi] += (parseFloat(val) || 0);
+      });
+    });
+    
+    // Store in DB and calculation cache
+    db[currentYear] = db[currentYear] || {};
+    db[currentYear][totalRow.id] = monthTotals;
+    calculatedTotals[totalRow.id] = { monthTotals, yearSum: monthTotals.reduce((a, b) => a + b, 0) };
   });
 
-  // render month totals & year totals
-  rows.forEach((r,ri)=>{
-    if(r.type!=='item'){
-      const tr=tbody.children[ri];
-      let yrSum=0;
-      months.forEach((_,mi)=>{
-        const v=(yearData[ri]&&yearData[ri][mi])||0;
-        yrSum+=v;
-        if(r.type==='net'){
-          tr.children[mi+1].textContent=v.toFixed(2);
-          tr.children[mi+1].className= v>=0 ? 'net-pos' : 'net-neg';
-        }else{
-          tr.children[mi+1].textContent=v.toFixed(2);
+  // 2. Calculate NET PROFIT row
+  const netRow = ROWS.find(r => r.type === 'net');
+  if (netRow && calculatedTotals[netRow.netOf[0]] && calculatedTotals[netRow.netOf[1]]) {
+    const incTotals = calculatedTotals[netRow.netOf[0]].monthTotals;
+    const expTotals = calculatedTotals[netRow.netOf[1]].monthTotals;
+    let netMonthTotals = Array(12).fill(0);
+    let netYearSum = 0;
+    
+    incTotals.forEach((inc, mi) => {
+      const net = inc - expTotals[mi];
+      netMonthTotals[mi] = net;
+      netYearSum += net;
+    });
+    
+    // Store in DB and calculation cache
+    db[currentYear] = db[currentYear] || {};
+    db[currentYear][netRow.id] = netMonthTotals;
+    calculatedTotals[netRow.id] = { monthTotals: netMonthTotals, yearSum: netYearSum };
+  }
+
+  // 3. Render Totals to the DOM
+  ROWS.forEach((r) => {
+    if (r.type === 'total' || r.type === 'net') {
+      const tr = tbody.querySelector(`tr[data-row-id="${r.id}"]`);
+      const calcData = calculatedTotals[r.id];
+      if (!tr || !calcData) return; 
+
+      // Render month totals
+      calcData.monthTotals.forEach((v, mi) => {
+        const td = tr.children[mi + 1]; // +1 for the label column
+        td.textContent = FORMATTER.format(v);
+        // Apply coloring for Net row
+        if (r.type === 'net') {
+          td.className = v >= 0 ? 'net-pos' : 'net-neg';
         }
       });
-      tr.querySelector('.yearTotal').textContent=yrSum.toFixed(2);
-      if(r.type==='net') tr.querySelector('.yearTotal').className= yrSum>=0 ? 'yearTotal net-pos' : 'yearTotal net-neg';
+      
+      // Render year total
+      const yearTotalTd = tr.querySelector('.yearTotal');
+      if (yearTotalTd) {
+        yearTotalTd.textContent = FORMATTER.format(calcData.yearSum);
+        yearTotalTd.className = 'yearTotal'; // Reset classes
+        // Apply coloring for Net year total
+        if (r.type === 'net') {
+          yearTotalTd.classList.add(calcData.yearSum >= 0 ? 'net-pos' : 'net-neg');
+        }
+      }
     }
   });
 }
 
-/* ---------- LOCAL STORAGE ---------- */
-function saveAll(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(db)); }
+
+/* ---------- LOCAL STORAGE (Persistence) ---------- */
+
+// Saves data to local storage, handling potential errors
+function saveAll(){ 
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(db)); 
+  } catch(e) {
+    console.error('Failed to save data to localStorage:', e);
+    // User alert provides good feedback on persistence failure
+    alert('Warning: Data persistence failed. Your browser storage may be full or disabled.');
+  }
+}
+
+// Loads data from local storage
 function loadAll(){
-  try{ return JSON.parse(localStorage.getItem(STORAGE_KEY))||{}; }catch(e){ return {}; }
+  try{ 
+    const storedData = localStorage.getItem(STORAGE_KEY);
+    return storedData ? JSON.parse(storedData) : {};
+  }catch(e){ 
+    console.warn('Failed to load data from localStorage. Starting with a blank budget.');
+    return {}; 
+  }
 }
 </script>
 </body>
