@@ -1,485 +1,654 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chandan Kumar | Gen AI Data Scientist</title>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <!-- Load Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Load Lucide Icons -->
-    <script type="module" src="https://unpkg.com/lucide@latest"></script>
+  <title>Chandan Kumar Portfolio</title>
+  <meta content="" name="descriptison">
+  <meta content="" name="keywords">
 
-    <style>
-        /* Custom Tailwind Configuration and Fonts */
-        :root {
-            --primary-color: #3b82f6; /* Blue 500 */
-        }
-        html {
-            scroll-behavior: smooth;
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0f172a; /* Slate 900 */
-            color: #e2e8f0; /* Slate 200 */
-        }
-        .section-title h2 {
-            font-size: 2.25rem; /* text-4xl */
-            font-weight: 700;
-            color: #f8fafc; /* Slate 50 */
-            padding-bottom: 0.5rem;
-            position: relative;
-        }
-        .section-title p {
-            font-size: 1.25rem; /* text-xl */
-            color: var(--primary-color);
-        }
-        .section-title h2::after {
-            content: "";
-            position: absolute;
-            display: block;
-            width: 50px;
-            height: 3px;
-            background: var(--primary-color);
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        .nav-link:hover {
-            color: var(--primary-color) !important;
-        }
-        .resume-item {
-            border-left: 2px solid var(--primary-color);
-            padding-left: 1.5rem;
-            position: relative;
-            margin-bottom: 2rem;
-        }
-        .resume-item::before {
-            content: "";
-            position: absolute;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            left: -9px;
-            top: 0;
-            background: var(--primary-color);
-            border: 2px solid #0f172a; /* Match body background */
-        }
-        /* Custom scrollbar for better look in dark mode */
-        body::-webkit-scrollbar {
-            width: 10px;
-        }
-        body::-webkit-scrollbar-thumb {
-            background-color: #3b82f6;
-            border-radius: 10px;
-        }
-        body::-webkit-scrollbar-track {
-            background-color: #1e293b;
-        }
-    </style>
+  <!-- Favicons -->
+
+
+
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/icofont/icofont.min.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/venobox/venobox.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <link rel="shortcut icon" href="assets/img/favicon2.png.ico">
 </head>
 
-<body class="selection:bg-blue-600 selection:text-white">
+<body>
 
-    <!-- Firebase Setup (MANDATORY BOILERPLATE) -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+  <!-- ======= Header ======= -->
+  <header id="header" class="header-tops">
+    <div class="container">
+<!-- <br><br> -->
+      <h1><a href="index.html">Chandan Kumar</a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html" class="mr-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a> -->
+      <h2>Chandan Kumar is an IIT graduate and Data Scientist with around 8 years of expertise in delivering AI-driven solutions across finance, banking, energy, and environmental sectors. Skilled in Machine Learning, Deep Learning, Generative AI, LLMs, NLP, RAG, vector databases, and MLOps, with hands-on expertise in Python, TensorFlow, FastAPI, and cloud platforms (AWS, Azure, GCP). Proven ability to design and deploy scalable ML pipelines, working with tools like Databricks, ML Studio, SageMaker, Bedrock, Vertex AI, LangChain, LangGraph, CrewAI, Hugging Face, Docker, and Kubernetes. Experienced in building robust ETL workflows and delivering analytics through Tableau and Power BI. Passionate about leveraging AI to drive automation, innovation, and business value.</span> </h2>
 
-        // Global Firebase variables provided by the Canvas environment
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+      <nav class="nav-menu d-none d-lg-block">
+        <ul>
+          <li class="active"><a href="#header">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#resume">Resume</a></li>
+          <li><a href="#certifications">Certifications</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav><!-- .nav-menu -->
 
-        if (Object.keys(firebaseConfig).length > 0) {
-            setLogLevel('Debug');
-            const app = initializeApp(firebaseConfig);
-            const db = getFirestore(app);
-            const auth = getAuth(app);
+      <div class="social-links">
 
-            // Authentication check and sign-in
-            onAuthStateChanged(auth, async (user) => {
-                if (!user) {
-                    try {
-                        if (initialAuthToken) {
-                            await signInWithCustomToken(auth, initialAuthToken);
-                        } else {
-                            await signInAnonymously(auth);
-                        }
-                        console.log("Firebase initialized and user signed in successfully.");
-                    } catch (error) {
-                        console.error("Firebase Auth Error:", error);
-                    }
-                }
-            });
-        }
-    </script>
-    
-    <div id="app" class="min-h-screen">
-        
-        <!-- ======= Header/Hero Section ======= -->
-        <header id="header" class="fixed top-0 left-0 w-full bg-slate-900/95 shadow-lg z-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-                <a href="#header" class="text-3xl font-extrabold text-white tracking-wider">Chandan Kumar</a>
-                
-                <!-- Desktop Navigation -->
-                <nav class="hidden lg:block">
-                    <ul class="flex space-x-6 text-lg">
-                        <li><a href="#header" class="nav-link text-slate-200 transition duration-300 hover:text-blue-500 font-medium">Home</a></li>
-                        <li><a href="#about" class="nav-link text-slate-200 transition duration-300 hover:text-blue-500 font-medium">About</a></li>
-                        <li><a href="#resume" class="nav-link text-slate-200 transition duration-300 hover:text-blue-500 font-medium">Resume</a></li>
-                        <li><a href="#certifications" class="nav-link text-slate-200 transition duration-300 hover:text-blue-500 font-medium">Certifications</a></li>
-                        <li><a href="#contact" class="nav-link text-slate-200 transition duration-300 hover:text-blue-500 font-medium">Contact</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </header>
 
-        <!-- Main Content (Adjusted for fixed header) -->
-        <main class="pt-20">
-
-            <!-- Home/Hero Section Content -->
-            <section id="home" class="py-24 md:py-32 bg-slate-800 text-center shadow-inner">
-                <div class="max-w-4xl mx-auto px-4">
-                    <h1 class="text-4xl sm:text-6xl font-extrabold text-white mb-4">
-                        Chandan Kumar
-                    </h1>
-                    <h2 class="text-xl sm:text-2xl text-blue-400 font-light mb-8 max-w-3xl mx-auto">
-                        IIT Graduate & Senior Data Scientist (8 Years)
-                    </h2>
-                    <p class="text-lg text-slate-300 leading-relaxed">
-                        Expert in delivering **AI-driven solutions** across Finance, Banking, and Energy. Skilled in **Generative AI, LLMs, NLP, RAG**, and designing scalable **MLOps** pipelines. Proven hands-on expertise with Python, TensorFlow, and cloud platforms (**AWS, Azure, GCP, IBM Watsonx**). Passionate about leveraging AI to drive business value and automation.
-                    </p>
-                    <div class="flex justify-center space-x-6 mt-8">
-                        <a href="mailto:chandaniitismg@gmail.com" target="_blank" class="text-2xl text-slate-300 hover:text-red-500 transition duration-300" aria-label="Email">
-                            <i data-lucide="mail" class="w-6 h-6"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/in/chandaniit/" target="_blank" class="text-2xl text-slate-300 hover:text-blue-500 transition duration-300" aria-label="LinkedIn">
-                            <i data-lucide="linkedin" class="w-6 h-6"></i>
-                        </a>
-                        <!-- Add a placeholder for a Resume download -->
-                        <a href="#resume" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-full transition duration-300 shadow-lg flex items-center space-x-2">
-                             <i data-lucide="file-text" class="w-5 h-5"></i>
-                            <span>View Full Resume</span>
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ======= About Section ======= -->
-            <section id="about" class="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-slate-900">
-                <div class="max-w-7xl mx-auto">
-                    <div class="section-title text-center mb-12">
-                        <h2>About Me</h2>
-                        <p>Know more about my background and skills</p>
-                    </div>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start">
-                        <!-- Profile Image Placeholder (Used as we cannot load external images) -->
-                        <div class="lg:col-span-1 rounded-xl overflow-hidden shadow-2xl bg-gray-700 p-6 text-center">
-                            <img src="https://placehold.co/400x400/334155/ffffff?text=CK+Photo" class="w-full h-auto rounded-xl object-cover" alt="Profile Image Placeholder">
-                            <h3 class="text-2xl font-bold mt-4 text-white">Chandan Kumar</h3>
-                            <p class="text-blue-400">Data Scientist at IBM</p>
-                        </div>
-                        
-                        <div class="lg:col-span-2 pt-4">
-                            <h3 class="text-3xl font-semibold mb-4 text-white">Hello! I am Chandan Kumar</h3>
-                            <p class="italic text-slate-400 mb-6">
-                                I am Data Scientist at IBM, Bangalore, driving complex AI and Gen AI initiatives.
-                            </p>
-                            
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-slate-300 mb-8">
-                                <ul class="space-y-3">
-                                    <li><i data-lucide="cake" class="w-5 h-5 inline mr-2 text-blue-500"></i> <strong>Birthday:</strong> 15 May 1996</li>
-                                    <li><i data-lucide="map-pin" class="w-5 h-5 inline mr-2 text-blue-500"></i> <strong>City:</strong> Bangalore, Karnataka</li>
-                                </ul>
-                                <ul class="space-y-3">
-                                    <li><i data-lucide="graduation-cap" class="w-5 h-5 inline mr-2 text-blue-500"></i> <strong>Degree:</strong> B.Tech, IIT Dhanbad</li>
-                                    <li><i data-lucide="at-sign" class="w-5 h-5 inline mr-2 text-blue-500"></i> <strong>Email:</strong> chandaniitismg@gmail.com</li>
-                                </ul>
-                            </div>
-                            
-                            <p class="text-lg leading-relaxed text-slate-300">
-                                With 8 years of dedicated experience, my focus is on leveraging **large language models (LLMs)** and **Retrieval-Augmented Generation (RAG)** frameworks to build novel solutions. I excel at the full MLOps lifecycle, from data strategy and model training to deployment and governance across diverse cloud environments.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Counts/Metrics -->
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-16 text-center">
-                        <div class="bg-slate-800 p-6 rounded-xl shadow-xl transition hover:shadow-blue-500/50 hover:scale-[1.02]">
-                            <i data-lucide="layers-3" class="w-8 h-8 text-blue-500 mx-auto mb-2"></i>
-                            <span class="text-4xl font-extrabold text-white block">5+</span>
-                            <p class="text-sm text-slate-400">Internships/Early Career Projects</p>
-                        </div>
-                        <div class="bg-slate-800 p-6 rounded-xl shadow-xl transition hover:shadow-blue-500/50 hover:scale-[1.02]">
-                            <i data-lucide="award" class="w-8 h-8 text-blue-500 mx-auto mb-2"></i>
-                            <span class="text-4xl font-extrabold text-white block">7</span>
-                            <p class="text-sm text-slate-400">Major Certifications</p>
-                        </div>
-                        <div class="bg-slate-800 p-6 rounded-xl shadow-xl transition hover:shadow-blue-500/50 hover:scale-[1.02]">
-                            <i data-lucide="rocket" class="w-8 h-8 text-blue-500 mx-auto mb-2"></i>
-                            <span class="text-4xl font-extrabold text-white block">6+</span>
-                            <p class="text-sm text-slate-400">Years in Core Data Science</p>
-                        </div>
-                        <div class="bg-slate-800 p-6 rounded-xl shadow-xl transition hover:shadow-blue-500/50 hover:scale-[1.02]">
-                            <i data-lucide="briefcase" class="w-8 h-8 text-blue-500 mx-auto mb-2"></i>
-                            <span class="text-4xl font-extrabold text-white block">3</span>
-                            <p class="text-sm text-slate-400">Major Employers (IBM, Accenture, Clean Harbors)</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ======= Skills Section (Simplified) ======= -->
-            <section id="skills" class="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-slate-900 border-t border-slate-800">
-                <div class="max-w-7xl mx-auto">
-                    <div class="section-title text-center mb-12">
-                        <h2>Core Skills</h2>
-                        <p>Specialized Technical & Cloud Expertise</p>
-                    </div>
-
-                    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-                        <!-- Technical Skills -->
-                        <div class="p-4 bg-slate-800 rounded-xl text-center shadow-lg hover:bg-slate-700 transition duration-300">
-                            <i data-lucide="brain-circuit" class="w-6 h-6 text-blue-400 mx-auto mb-2"></i>
-                            <p class="text-sm font-medium text-white">Generative AI / LLMs</p>
-                        </div>
-                        <div class="p-4 bg-slate-800 rounded-xl text-center shadow-lg hover:bg-slate-700 transition duration-300">
-                            <i data-lucide="workflow" class="w-6 h-6 text-blue-400 mx-auto mb-2"></i>
-                            <p class="text-sm font-medium text-white">MLOps / Pipelines</p>
-                        </div>
-                        <div class="p-4 bg-slate-800 rounded-xl text-center shadow-lg hover:bg-slate-700 transition duration-300">
-                            <i data-lucide="file-code-2" class="w-6 h-6 text-blue-400 mx-auto mb-2"></i>
-                            <p class="text-sm font-medium text-white">Python / SQL / FastAPI</p>
-                        </div>
-                        <div class="p-4 bg-slate-800 rounded-xl text-center shadow-lg hover:bg-slate-700 transition duration-300">
-                            <i data-lucide="cloud" class="w-6 h-6 text-blue-400 mx-auto mb-2"></i>
-                            <p class="text-sm font-medium text-white">AWS / Azure / GCP</p>
-                        </div>
-                        <div class="p-4 bg-slate-800 rounded-xl text-center shadow-lg hover:bg-slate-700 transition duration-300">
-                            <i data-lucide="database" class="w-6 h-6 text-blue-400 mx-auto mb-2"></i>
-                            <p class="text-sm font-medium text-white">Vector DBs / RAG</p>
-                        </div>
-                        <div class="p-4 bg-slate-800 rounded-xl text-center shadow-lg hover:bg-slate-700 transition duration-300">
-                            <i data-lucide="factory" class="w-6 h-6 text-blue-400 mx-auto mb-2"></i>
-                            <p class="text-sm font-medium text-white">Data Engineering / ETL</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Core Competencies (Management/Strategy) -->
-                    <div class="mt-12">
-                        <h3 class="text-2xl font-semibold mb-4 text-white border-b border-slate-700 pb-2">Business and Strategy Focus</h3>
-                        <div class="flex flex-wrap gap-4">
-                            <span class="px-3 py-1 bg-blue-900/50 rounded-full text-blue-300 text-sm">Project Management & Deployment</span>
-                            <span class="px-3 py-1 bg-blue-900/50 rounded-full text-blue-300 text-sm">AI Governance & Responsible AI</span>
-                            <span class="px-3 py-1 bg-blue-900/50 rounded-full text-blue-300 text-sm">Data Strategy & Management</span>
-                            <span class="px-3 py-1 bg-blue-900/50 rounded-full text-blue-300 text-sm">Financial & Business Analytics</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ======= Resume Section (Detail) ======= -->
-            <section id="resume" class="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-slate-800 border-t border-slate-700">
-                <div class="max-w-7xl mx-auto">
-                    <div class="section-title text-center mb-12">
-                        <h2>Professional Resume</h2>
-                        <p>Detailed Experience and Education</p>
-                    </div>
-
-                    <div class="flex flex-wrap -mx-4">
-                        <div class="w-full lg:w-1/2 px-4">
-                            <h3 class="text-3xl font-bold mb-6 text-white border-b border-slate-700 pb-2">Professional Experience (8 Years Total)</h3>
-
-                            <!-- IBM -->
-                            <div class="resume-item">
-                                <h4 class="text-xl font-semibold text-blue-400">Data Scientist</h4>
-                                <p class="text-lg font-medium text-white">IBM | <span class="float-right text-sm text-slate-400">Mar 2024 – Ongoing</span></p>
-                                <p class="mt-2 text-slate-300">
-                                    Led the development of AI Governance solutions on **IBM's Watsonx.Governance** platform. Focused on ensuring ethical and responsible deployment of Generative AI and traditional ML models in highly regulated sectors.
-                                </p>
-                            </div>
-
-                            <!-- Accenture -->
-                            <div class="resume-item">
-                                <h4 class="text-xl font-semibold text-blue-400">Data Scientist</h4>
-                                <p class="text-lg font-medium text-white">Accenture | <span class="float-right text-sm text-slate-400">Apr 2021 – Feb 2024</span></p>
-                                <ul class="list-disc list-inside mt-2 space-y-2 text-slate-300">
-                                    <li>**Mizuho Bank:** Developed and deployed PdfGPT (AI-powered summarization) using **Gen AI and Azure Cognitive Services**, **boosting document processing efficiency by 35%**.</li>
-                                    <li>**Ulster Bank:** Built and automated **customer segmentation pipelines** on **AWS Cloud** using ML, Python, and Power BI, providing actionable insights for marketing strategies.</li>
-                                    <li>**Facebook:** Designed and optimized **forecasting models** leveraging Machine Learning and AWS to discover competitive advantages and predict key metrics.</li>
-                                    <li>*(Note: Included a brief period as Process Lead, Feb-Mar 2021, focusing on process optimization.)*</li>
-                                </ul>
-                            </div>
-
-                            <!-- Clean Harbors -->
-                            <div class="resume-item">
-                                <h4 class="text-xl font-semibold text-blue-400">Data Scientist</h4>
-                                <p class="text-lg font-medium text-white">Clean Harbors (Environmental Sector) | <span class="float-right text-sm text-slate-400">Jun 2018 – Jan 2021</span></p>
-                                <ul class="list-disc list-inside mt-2 space-y-2 text-slate-300">
-                                    <li>**Waste Classification Code:** Designed and fine-tuned predictive models using Azure services, resulting in a **20% reduction** in manual code assignment errors and **streamlining hazardous waste logistics**.</li>
-                                    <li>**Invoice Audit & Revenue:** Developed and automated a machine learning-based invoice audit algorithm that improved revenue prediction accuracy, leading to an **estimated $1.5M in annual savings** by mitigating billing discrepancies.</li>
-                                </ul>
-                            </div>
-
-                        </div>
-
-                        <div class="w-full lg:w-1/2 px-4 mt-12 lg:mt-0">
-                            
-                            <h3 class="text-3xl font-bold mb-6 text-white border-b border-slate-700 pb-2">Education & Certifications</h3>
-
-                            <!-- Education -->
-                            <h4 class="text-2xl font-semibold mb-4 text-blue-400">Education</h4>
-                            <div class="resume-item">
-                                <h4 class="text-xl font-semibold text-white">B.Tech (Engineering)</h4>
-                                <p class="text-lg font-medium text-blue-300">IIT Dhanbad | <span class="float-right text-sm text-slate-400">2013 – 2017</span></p>
-                                <p class="mt-2 text-slate-300">Cleared IIT JEE-2013, placing among the top 1% of students who cleared JEE Advanced.</p>
-                            </div>
-                            
-                            <h4 class="text-2xl font-semibold mb-4 mt-8 text-blue-400">Certifications & Advanced Training</h4>
-                            <ul class="list-disc list-inside mt-2 space-y-3 text-slate-300">
-                                <li>Northwestern University – **Analytics & AI**</li>
-                                <li>Microsoft & LinkedIn – **Generative AI**</li>
-                                <li>Duke University – **DevOps, DataOps, MLOps**</li>
-                                <li>Stanford University – **Machine Learning**</li>
-                                <li>Microsoft – **AZURE Machine Learning** (Certified)</li>
-                                <li>AWS – **AWS Cloud** (Certified)</li>
-                                <li>Microsoft – **SQL Server** (Certified)</li>
-                            </ul>
-                            
-                            <h4 class="text-2xl font-semibold mb-4 mt-8 text-blue-400">Achievements</h4>
-                            <ul class="list-disc list-inside mt-2 space-y-3 text-slate-300">
-                                <li>Rank #1 in **HackerRank SQL** among peers.</li>
-                                <li>Consistently recognized by client leadership for timely, **error-free project deliveries** and technical excellence.</li>
-                                <li>Successfully led and managed a team of 5 analysts, restoring **team credibility and project stability**.</li>
-                                <li>Silver medalist in 200m race at district level "Khel Kud Pratiyogita" in Bihar (2009).</li>
-                            </ul>
-                            
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ======= Certifications Section (Detail List) ======= -->
-            <section id="certifications" class="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-slate-900 border-t border-slate-800">
-                <div class="max-w-7xl mx-auto">
-                    <div class="section-title text-center mb-12">
-                        <h2>Certifications Summary</h2>
-                        <p>Key Areas of Specialized Training</p>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        
-                        <div class="p-6 bg-slate-800 rounded-xl shadow-xl hover:shadow-blue-500/50 transition duration-300">
-                            <i data-lucide="award" class="w-8 h-8 text-blue-500 mb-3"></i>
-                            <h4 class="text-xl font-semibold text-white">Northwestern University</h4>
-                            <p class="text-lg font-medium text-blue-300 mb-2">Analytics & AI Specialization</p>
-                            <p class="text-sm text-slate-400">In-depth study of advanced statistical analysis and artificial intelligence principles.</p>
-                        </div>
-                        
-                        <div class="p-6 bg-slate-800 rounded-xl shadow-xl hover:shadow-blue-500/50 transition duration-300">
-                            <i data-lucide="message-square-text" class="w-8 h-8 text-blue-500 mb-3"></i>
-                            <h4 class="text-xl font-semibold text-white">Microsoft & LinkedIn</h4>
-                            <p class="text-lg font-medium text-blue-300 mb-2">Generative AI</p>
-                            <p class="text-sm text-slate-400">Focused on prompt engineering, LLM fine-tuning, RAG architecture, and deployment strategies.</p>
-                        </div>
-                        
-                        <div class="p-6 bg-slate-800 rounded-xl shadow-xl hover:shadow-blue-500/50 transition duration-300">
-                            <i data-lucide="cloud-cog" class="w-8 h-8 text-blue-500 mb-3"></i>
-                            <h4 class="text-xl font-semibold text-white">Duke University</h4>
-                            <p class="text-lg font-medium text-blue-300 mb-2">DevOps, DataOps, MLOps</p>
-                            <p class="text-sm text-slate-400">Mastery of CI/CD, automation, and operationalizing machine learning models at scale.</p>
-                        </div>
-
-                        <div class="p-6 bg-slate-800 rounded-xl shadow-xl hover:shadow-blue-500/50 transition duration-300">
-                            <i data-lucide="box" class="w-8 h-8 text-blue-500 mb-3"></i>
-                            <h4 class="text-xl font-semibold text-white">Stanford University</h4>
-                            <p class="text-lg font-medium text-blue-300 mb-2">Machine Learning Foundations</p>
-                            <p class="text-sm text-slate-400">Core algorithms in Supervised and Unsupervised Learning.</p>
-                        </div>
-
-                        <div class="p-6 bg-slate-800 rounded-xl shadow-xl hover:shadow-blue-500/50 transition duration-300">
-                            <i data-lucide="server-cog" class="w-8 h-8 text-blue-500 mb-3"></i>
-                            <h4 class="text-xl font-semibold text-white">Microsoft / AWS</h4>
-                            <p class="text-lg font-medium text-blue-300 mb-2">Azure ML & AWS Cloud</p>
-                            <p class="text-sm text-slate-400">Certified competence in cloud data science services and infrastructure.</p>
-                        </div>
-                        
-                        <div class="p-6 bg-slate-800 rounded-xl shadow-xl hover:shadow-blue-500/50 transition duration-300">
-                            <i data-lucide="database" class="w-8 h-8 text-blue-500 mb-3"></i>
-                            <h4 class="text-xl font-semibold text-white">Microsoft</h4>
-                            <p class="text-lg font-medium text-blue-300 mb-2">SQL Server Expertise</p>
-                            <p class="text-sm text-slate-400">Advanced query writing, database management, and ETL proficiency.</p>
-                        </div>
-
-                    </div>
-                </div>
-            </section>
-
-            <!-- ======= Contact Section ======= -->
-            <section id="contact" class="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-slate-800 border-t border-slate-700">
-                <div class="max-w-4xl mx-auto">
-                    <div class="section-title text-center mb-12">
-                        <h2>Contact Me</h2>
-                        <p>Let's connect and discuss AI-driven opportunities</p>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        
-                        <div class="p-6 bg-slate-900 rounded-xl shadow-xl flex items-center space-x-4">
-                            <i data-lucide="map-pin" class="w-8 h-8 text-blue-500 flex-shrink-0"></i>
-                            <div>
-                                <h3 class="text-xl font-semibold text-white">My Location</h3>
-                                <p class="text-slate-400">Bengaluru, Karnataka, India</p>
-                            </div>
-                        </div>
-
-                        <div class="p-6 bg-slate-900 rounded-xl shadow-xl flex items-center space-x-4">
-                            <i data-lucide="mail" class="w-8 h-8 text-blue-500 flex-shrink-0"></i>
-                            <div>
-                                <h3 class="text-xl font-semibold text-white">Email Me</h3>
-                                <p class="text-slate-400">chandaniitismg@gmail.com</p>
-                            </div>
-                        </div>
-                        
-                        <!-- Social Profiles Box -->
-                        <div class="md:col-span-2 p-6 bg-slate-900 rounded-xl shadow-xl">
-                            <h3 class="text-xl font-semibold text-white mb-3">Social Profiles</h3>
-                            <div class="social-links flex space-x-6">
-                                <a href="mailto:chandaniitismg@gmail.com" target="_blank" class="text-3xl text-slate-400 hover:text-red-500 transition duration-300" aria-label="Email">
-                                    <i data-lucide="mail" class="w-8 h-8"></i>
-                                </a>
-                                <a href="https://www.linkedin.com/in/chandaniit/" target="_blank" class="text-3xl text-slate-400 hover:text-blue-500 transition duration-300" aria-label="LinkedIn">
-                                    <i data-lucide="linkedin" class="w-8 h-8"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-        </main>
-
-        <!-- Footer -->
-        <footer class="bg-slate-900 border-t border-slate-700 py-6">
-            <div class="max-w-7xl mx-auto px-4 text-center text-sm text-slate-500">
-                &copy; 2025 Chandan Kumar. All rights reserved. <br>
-                Designed with <span class="text-red-500">❤️</span> and Tailwind CSS.
-            </div>
-        </footer>
+        <!-- <a href=" " target="_blank" class="fa fa-facebook"></a> -->
+        <!-- <a href=" https://www.facebook.com/profile.php?id=100049334353709 " target="_blank" class="fa fa-instagram"></a> -->
+        <a href="mailto:chandaniitismg@gmail.com" target="_blank" class="fa fa-google-plus"></a>
+        <a href="https://www.linkedin.com/in/chandaniit/" target="_blank" class="fa fa-linkedin"></a>
+      </div>
 
     </div>
-    
-    <!-- Script to initialize Lucide icons -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
-            }
-        });
-    </script>
+  </header><!-- End Header -->
+
+  <!-- ======= About Section ======= -->
+  <section id="about" class="about">
+
+    <!-- ======= About Me ======= -->
+    <div class="about-me container">
+
+      <div class="section-title">
+        <h2>About</h2>
+        <p>Know more about me</p>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-4" data-aos="fade-right">
+          <img src="assets/img/dp.jpg" class="img-fluid" alt="">
+        </div>
+        <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
+          <h3>Hello! I am Chandan Kumar</h3>
+          <p class="font-italic">
+            I am Data Scientist at IBM, Bangalore </p>
+          <div class="row">
+            <div class="col-lg-6">
+              <ul>
+                <li><i class="icofont-rounded-right"></i> <strong>Birthday:</strong> 15 - May - 1996</li>
+
+                <li><i class="icofont-rounded-right"></i> <strong>City:</strong> Bangalore, Karnataka</li>
+              </ul>
+            </div>
+            <div class="col-lg-6">
+              <ul>
+
+                <li><i class="icofont-rounded-right"></i> <strong>Degree:</strong> B.Tech, IIT Dhanbad</li>
+                <li><i class="icofont-rounded-right"></i> <strong>Email:</strong> chandaniitismg@gmail.com</li>
+
+              </ul>
+            </div>
+          </div>
+          <p>
+            IIT graduate and Data Scientist with around 8 years of expertise in delivering AI-driven solutions across finance, banking, energy, and environmental sectors. Skilled in Machine Learning, Deep Learning, Generative AI, LLMs, NLP, RAG, vector databases, and MLOps, with hands-on expertise in Python, TensorFlow, FastAPI, and cloud platforms (AWS, Azure, GCP). Proven ability to design and deploy scalable ML pipelines, working with tools like Databricks, ML Studio, SageMaker, Bedrock, Vertex AI, LangChain, LangGraph, CrewAI, Hugging Face, Docker, and Kubernetes. Experienced in building robust ETL workflows and delivering analytics through Tableau and Power BI. Passionate about leveraging AI to drive automation, innovation, and business value.
+        </div>
+      </div>
+
+    </div><!-- End About Me -->
+
+    <!-- ======= Counts ======= -->
+    <div class="counts container">
+
+      <div class="row">
+
+        <div class="col-lg-3 col-md-6">
+          <div class="count-box">
+            <i class="icofont-badge"></i>
+            <span data-toggle="counter-up">5</span>
+            <p>Internships</p>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mt-5 mt-md-0">
+          <div class="count-box">
+            <i class="icofont-license"></i>
+            <span data-toggle="counter-up">6</span>
+            <p>Certifications</p>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
+          <div class="count-box">
+            <i class="icofont-institution"></i>
+            <span data-toggle="counter-up">1</span>
+            <p>Hacksthons</p>
+          </div>
+        </div>
+
+         <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
+          <div class="count-box">
+            <i class="icofont-code"></i>
+            <span data-toggle="counter-up">3</span>
+            <p>Jobs</p>
+          </div>
+        </div> 
+
+      </div>
+
+    </div><!-- End Counts -->
+
+    <!-- ======= Skills  ======= -->
+    <div class="skills container">
+
+      <div class="section-title">
+        <h2>Skills</h2>
+      </div>
+
+      <div class="row skills-content">
+
+        <div class="col-lg-6">
+
+          <div class="progress">
+            <span class="skill">Data Science <i class="val"></i></span>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+
+          <div class="progress">
+            <span class="skill">Machine Learning <i class="val"></i></span>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+<div class="progress">
+            <span class="skill">Python<i class="val"></i></span>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+          <div class="progress">
+            <span class="skill">Gen AI <i class="val"></i></span>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+
+          <div class="progress">
+            <span class="skill">SQL <i class="val"></i></span>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+
+          <div class="progress">
+            <span class="skill">AZURE <i class="val"></i></span>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+
+          <div class="progress">
+            <span class="skill">AWS<i class="val"></i></span>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+
+          <div class="progress">
+            <span class="skill">GCP<i class="val"></i></span>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+
+          <div class="progress">
+            <span class="skill">IBM WatsonX<i class="val"></i></span>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div><!-- End Skills -->
+
+    <div class="skills container">
+
+      <div class="section-title">
+        <h2>CORE COMPETENCIES</h2>
+      </div>
+
+      <div class="row skills-content">
+
+        <div class="col-lg-6">
+
+          <div class="progress">
+            <span class="skill">Analytics & AI<i class="val"></i></span>
+            <!-- <div class="progress-bar-wrap">
+              <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+            </div> -->
+          </div>
+          
+
+          <div class="progress">
+            <span class="skill">Data Strategy and Management<i class="val"></i></span>
+            <!-- <div class="progress-bar-wrap">
+              <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+            </div> -->
+          </div>
+
+          <div class="progress">
+            <span class="skill">Project Management and Deployment
+              <i class="val"></i></span>
+            <!-- <div class="progress-bar-wrap">
+  <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+</div> -->
+          </div>
+
+          <div class="progress">
+            <span class="skill">Business and Data Analytics<i class="val"></i></span>
+            <!-- <div class="progress-bar-wrap">
+              <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ======= Interests ======= -->
+    <div class="interests container">
+
+      <div class="section-title">
+        <h2>Interests</h2>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-3 col-md-4">
+          <div class="icon-box">
+            <i class="icofont-newspaper" style="color: #ffbb2c;"></i>
+            <h3>Data Science & AI</h3>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 mt-4 mt-lg-0">
+          <div class="icon-box">
+            <i class="icofont-list" style="color: #e361ff;"></i>
+            <h3>Analytics</h3>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 mt-4 mt-lg-0">
+          <div class="icon-box">
+            <!-- <i class="fas fa-palette"></i> -->
+            <i class="icofont-pine" style="color: #47aeff;"></i>
+            <h3>Traveling</h3>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 mt-4 mt-lg-0">
+          <div class="icon-box">
+            <i class="icofont-music-notes" style="color: #e80368;"></i>
+            <h3>Music</h3>
+          </div>
+        </div>
+
+        <!-- <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
+          <div class="icon-box">
+            <i class="icofont-robot" style="color: #5578ff;"></i>
+            <h3>Android development</h3>
+          </div>
+        </div> -->
+        <!-- <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
+          <div class="icon-box">
+            <i class="icofont-light-bulb" style="color: #11dbcf;"></i>
+            <h3>Artificial Intelligence</h3>
+          </div>
+        </div> -->
+
+        <!-- <div class="col-lg-3 col-md-4 mt-4">
+          <div class="icon-box">
+            <i class="icofont-airplane" style="color: #ffa76e;"></i>
+            <h3>Travelling</h3>
+          </div>
+        </div> -->
+      </div><!-- End Interests -->
+
+
+
+  </section><!-- End About Section -->
+
+  <!-- ======= Resume Section ======= -->
+<section id="resume" class="resume">
+    <div class="container">
+
+      <div class="section-title">
+        <h2 style="font-size: 28px;">Resume</h2>
+        <p style="font-size: 20px;">Chandan Kumar</p>
+        <p style="font-size: small; color: #6c757d;">
+          chandaniitismg@gmail.com  |  +91-9199000200  |  chandaniit  |  linkedin.com/in/chandaniit
+        </p>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-6">
+          <h3 class="resume-title">PROFESSIONAL SUMMARY</h3>
+          <div class="resume-item pb-0">
+            <p><em>IIT graduate and Data Scientist with around 8 years of expertise in delivering AI-driven solutions across finance, banking, energy, and environmental sectors. Skilled in Machine Learning, Deep Learning, Generative AI, LLMs, NLP, RAG, vector databases, and MLOps, with hands-on expertise in Python, TensorFlow, FastAPI, and cloud platforms (AWS, Azure, GCP). Proven ability to design and deploy scalable ML pipelines, working with tools like Databricks, ML Studio, SageMaker, Bedrock, Vertex AI, LangChain, LangGraph, CrewAI, Hugging Face, Docker, and Kubernetes. Experienced in building robust ETL workflows and delivering analytics through Tableau and Power BI. Passionate about leveraging AI to drive automation, innovation, and business value.</em></p>
+          </div>
+
+          <h3 class="resume-title">EXPERIENCE (6 Years)</h3>
+          <div class="resume-item">
+            <p><strong>IBM (Data Scientist)</strong><span style="float:right;">Mar 2024 – Ongoing</span></p>
+          </div>
+          <div class="resume-item">
+            <p><strong>Accenture (Data Scientist)</strong><span style="float:right;">Apr 2021 – Feb 2024</span></p>
+          </div>
+          <div class="resume-item">
+            <p><strong>Capgemini (Process Lead)</strong><span style="float:right;">Feb 2021 – Mar 2021</span></p>
+          </div>
+          <div class="resume-item">
+            <p><strong>Clean Harbors (Data Scientist)</strong><span style="float:right;">Jun 2018 – Jan 2021</span></p>
+          </div>
+
+          <h3 class="resume-title">PROJECTS</h3>
+          <div class="resume-item">
+            <h4>AI Governance, IBM</h4>
+            <p>
+              <ul>
+                <li>Led the design and development of a comprehensive AI governance solution using IBM's Watsonx.Governance platform.</li>
+                <li>Ensured ethical and responsible development, deployment, and management of Generative AI (Gen AI) and traditional Machine Learning (ML) models.</li>
+              </ul>
+            </p>
+          </div>
+          <div class="resume-item">
+            <h4>Mizuho Bank, Accenture</h4>
+            <p>
+              <ul>
+                <li>Developed and deployed PdfGPT, an AI-powered text summarization system, boosting document processing efficiency by 35%.</li>
+                <li>Leveraged Generative AI and Azure Cognitive Services to enable faster banking processes through key feature extraction and interactive chat functionality.</li>
+                <li>Facilitated the project's success from conception to implementation using expertise in LLM, Data Science, Machine Learning, Azure, Python, SQL, Banking, Data Analytics, and Business Analytics.</li>
+              </ul>
+            </p>
+          </div>
+          <div class="resume-item">
+            <h4>Ulster Bank, Accenture</h4>
+            <p>
+              <ul>
+                <li>Built and deployed automated machine learning pipelines for customer segmentation on AWS Cloud.</li>
+                <li>Leveraged expertise in ML, Python, SQL, Power BI, and Banking domain knowledge to derive meaningful insights and explain them to clients.</li>
+              </ul>
+            </p>
+          </div>
+          <div class="resume-item">
+            <h4>Facebook, Accenture</h4>
+            <p>
+              <ul>
+                <li>Examined and explored data from multiple disparate sources to discover insights providing competitive advantages for clients.</li>
+                <li>Designed and optimized machine learning pipelines, specializing in forecasting models, leveraging Machine Learning, Python, and AWS.</li>
+              </ul>
+            </p>
+          </div>
+          <div class="resume-item">
+            <h4>Waste Classification Code, Clean Harbors</h4>
+            <p>
+              <ul>
+                <li>Designed, developed, and fine-tuned Waste Classification Code Prediction models to streamline code assignment.</li>
+                <li>Leveraged a robust dataset, stringent data quality checks, and skills in Data Science, Machine Learning, Azure services, Python, SQL, Data Analytics, and Business Analytics to drive project success from ideation to implementation.</li>
+              </ul>
+            </p>
+          </div>
+          <div class="resume-item">
+            <h4>Invoice Audit, Clean Harbors</h4>
+            <p>
+              <ul>
+                <li>Developed and deployed an invoice audit and revenue prediction algorithm using machine learning and statistical analysis.</li>
+                <li>Streamlined the process by automating the pipeline, achieving significant improvements in accuracy and efficiency.</li>
+                <li>Leveraged expertise in Data Science, Machine Learning, Azure services, Python, SQL, Data Analytics, and Business Analytics.</li>
+              </ul>
+            </p>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <h3 class="resume-title">EDUCATION</h3>
+          <div class="resume-item">
+            <p><strong>IIT Dhanbad - B.Tech</strong><span style="float:right;">2013 – 2017</span></p>
+          </div>
+          <div class="resume-item">
+            <p><strong>Super30, Patna</strong><span style="float:right;">2012 – 2013</span></p>
+          </div>
+
+          <h3 class="resume-title">CERTIFICATION</h3>
+          <div class="resume-item">
+            <ul>
+              <li>Northwestern University – Analytics & AI</li>
+              <li>Microsoft & LinkedIn – Generative AI</li>
+              <li>Microsoft – AZURE Machine Learning</li>
+              <li>Stanford University – Machine Learning</li>
+              <li>Duke University – DevOps, DataOps, MLOps</li>
+              <li>AWS – AWS Cloud</li>
+              <li>Microsoft – SQL Server</li>
+            </ul>
+          </div>
+
+          <h3 class="resume-title">ACHIEVEMENTS</h3>
+          <div class="resume-item">
+            <ul>
+              <li>Rank #1 in HackerRank SQL.</li>
+              <li>Consistently appreciated by client leadership for error-free, timely project deliveries.</li>
+              <li>Led and managed a team of 5 analysts, successfully restoring team credibility and stability.</li>
+              <li>Cleared IIT JEE-2013, among top 1% of students who cleared JEE Advanced.</li>
+              <li>Student representative in Mess Committee, IIT Dhanbad (2015-16).</li>
+              <li>Silver medalist in 200m race at district level "Khel Kud Pratiyogita" in Bihar (2009).</li>
+            </ul>
+          </div>
+
+          <h3 class="resume-title">SKILLS</h3>
+          <div class="resume-item">
+            <ul>
+              <li><strong>Data Science:</strong> Machine Learning, Deep Learning, AI Governance, responsible AI, MLOps, Generative AI, Python, SQL, Azure, AWS, GCP, Power BI, Statistical Analysis, Advanced analytics, Data Analytics, Financial Analytics, Business Analytics, Machine learning, Time Series, Algorithm, Model development, Model deployment, Modeling.</li>
+              <li><strong>Cloud Technologies:</strong> AZURE, AWS, GCP.</li>
+              <li><strong>Databases:</strong> Microsoft Azure SQL, SQL Server, MySQL, MongoDB, BigQuery.</li>
+              <li><strong>Programming:</strong> Python (Pandas, NumPy, Scikit-learn, matplotlib, seaborn, PyTorch, TensorFlow).</li>
+              <li><strong>Machine Learning:</strong> Supervised ML (Linear and Logistic Regression, Decision Trees, RF, XGBoost), Unsupervised ML, NLP, Time Series.</li>
+              <li><strong>Visualization Tools:</strong> Power BI, Matplotlib, Seaborn.</li>
+              <li><strong>Data Engineering:</strong> Azure Data Factory, Azure Data Bricks, Azure SQL, Azure SYNAPSE Analytics, AWS S3, AWS Athena, AWS Glue, AWS SageMaker, AWS Glacier, AWS DataSync, Vertex AI, BigQuery.</li>
+              <li><strong>Industry:</strong> Banking, Environmental, social media, Waste management, Risk Management.</li>
+            </ul>
+          </div>
+
+          <h3 class="resume-title">CORE COMPETENCIES</h3>
+          <div class="resume-item">
+            <ul>
+              <li>Project Management and Deployment</li>
+              <li>Data Strategy and Management</li>
+              <li>Business Strategy & Execution</li>
+              <li>Business and Data Analytics</li>
+              <li>Analytics & AI</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+  <!-- Start Certifications Section-->
+<section id="certifications" class="certifications">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>Certifications</h2>
+        <p>My Certificates</p>
+      </div>
+
+      <div class="row">
+
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+          <div class="icon-box">
+            <div class="icon"><i class="icofont-certificate-alt-1"></i></div>
+            <h4><a href="#">Northwestern University – Analytics & AI</a></h4>
+            <p>Certified in Analytics & AI by Northwestern University.</p>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+          <div class="icon-box">
+            <div class="icon"><i class="icofont-certificate-alt-1"></i></div>
+            <h4><a href="#">Microsoft & LinkedIn – Generative AI</a></h4>
+            <p>Certified in Generative AI by Microsoft & LinkedIn.</p>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+          <div class="icon-box">
+            <div class="icon"><i class="icofont-certificate-alt-1"></i></div>
+            <h4><a href="#">Microsoft – AZURE Machine Learning</a></h4>
+            <p>Certified in AZURE Machine Learning by Microsoft.</p>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+          <div class="icon-box">
+            <div class="icon"><i class="icofont-certificate-alt-1"></i></div>
+            <h4><a href="#">Stanford University – Machine Learning</a></h4>
+            <p>Certified in Machine Learning by Stanford University.</p>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+          <div class="icon-box">
+            <div class="icon"><i class="icofont-certificate-alt-1"></i></div>
+            <h4><a href="#">Duke University – DevOps, DataOps, MLOps</a></h4>
+            <p>Certified in DevOps, DataOps, MLOps by Duke University.</p>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+          <div class="icon-box">
+            <div class="icon"><i class="icofont-certificate-alt-1"></i></div>
+            <h4><a href="#">AWS – AWS Cloud</a></h4>
+            <p>Certified in AWS Cloud by Amazon Web Services.</p>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+          <div class="icon-box">
+            <div class="icon"><i class="icofont-certificate-alt-1"></i></div>
+            <h4><a href="#">Microsoft – SQL Server</a></h4>
+            <p>Certified in SQL Server by Microsoft.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="section-title">
+        <h2>Achievements</h2>
+        <p>Commining Soon</p>
+      </div>
+     <div class="row">
+      <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+        <img src="assets/img/11.jpg" class="img-fluid" alt="">
+      </div>
+      <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+        <img src="assets/img/Captureee.PNG" class="img-fluid" alt="">
+      </div>
+      <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+        <img src="assets/img/22.jpg" class="img-fluid" alt="">
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- ======= Contact Section ======= -->
+  <section id="contact" class="contact">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>Contact</h2>
+        <p>Contact Me</p>
+      </div>
+
+      <div class="row mt-2">
+
+        <div class="col-md-6 d-flex align-items-stretch">
+          <div class="info-box">
+            <i class="bx bx-map"></i>
+            <h3>My Address</h3>
+            <p>Bengaluru, Karnataka</p>
+          </div>
+        </div>
+
+        <div class="col-md-6 mt-4 mt-md-0 d-flex align-items-stretch">
+          <div class="info-box">
+            <i class="bx bx-share-alt"></i>
+            <h3>Social Profiles</h3>
+            <div class="social-links">
+
+              <!-- <a href="#" target="_blank" class="fa fa-facebook"></a>
+        <a href="#" target="_blank" class="fa fa-instagram"></a> -->
+              <a href="mailto:chandaniitismg@gmail.com" target="_blank" class="fa fa-google-plus"></a>
+              <a href="https://www.linkedin.com/in/chandaniit/" target="_blank" class="fa fa-linkedin"></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 mt-4 d-flex align-items-stretch">
+          <div class="info-box">
+            <i class="bx bx-envelope"></i>
+            <h3>Email Me</h3>
+            <p>chandaniitismg@gmail.com</p>
+          </div>
+        </div>
+      </div>
+    </div>
+      <!-- </div> -->
+    </div>
+  </section><!-- End Contact Section -->
+
+  <div class="credits">
+    <!-- All the links in the footer should remain intact. -->
+    <!-- You can delete the links only if you purchased the pro version. -->
+    <!-- Licensing information: https://bootstrapmade.com/license/ -->
+    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/personal-free-resume-bootstrap-template/ -->
+    Designed by <a href="#">Chandan</a>
+  </div>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/jquery/jquery.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/waypoints/jquery.waypoints.min.js"></script>
+  <script src="assets/vendor/counterup/counterup.min.js"></script>
+  <script src="assets/vendor/owl.carousel/owl.carousel.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/venobox/venobox.min.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
 </body>
+
 </html>
+
+
+
+
