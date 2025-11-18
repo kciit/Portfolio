@@ -1,454 +1,220 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Chandan Kumar - Data Scientist & AI Engineer at IBM | IIT (ISM) Dhanbad | Super30 | Generative AI, LLMs, RAG, MLOps Expert">
   <title>Chandan Kumar | Data Scientist & AI Engineer</title>
-  <meta name="description" content="IIT Dhanbad graduate | Data Scientist at IBM | Expert in GenAI, LLMs, MLOps | 8+ years building AI solutions"/>
-  <meta name="keywords" content="Data Scientist, Machine Learning, Generative AI, LLM, Python, AWS, Azure, GCP, IBM, Bangalore"/>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS via CDN (Production-ready, fast, no build step needed) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0D47A1',
+            secondary: '#1976D2',
+            accent: '#FFCA28',
+          },
+          fontFamily: {
+            sans: ['Poppins', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
 
-  <!-- Boxicons -->
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
-  <!-- AOS Animation -->
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <style>
-    :root {
-      --primary: #6366f1;
-      --primary-dark: #4f46e5;
-      --bg: #0f172a;
-      --bg-light: #1e293b;
-      --text: #e2e8f0;
-      --text-light: #94a3b8;
-      --accent: #a78bfa;
-    }
-    [data-theme="light"] {
-      --bg: #f8fafc;
-      --bg-light: #ffffff;
-      --text: #1e293b;
-      --text-light: #64748b;
-      --primary: #6366f1;
-    }
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.7;
-      overflow-x: hidden;
-    }
-    .container { width: 90%; max-width: 1200px; margin: 0 auto; }
-    section { padding: 100px 0; }
-    h1,h2,h3,h4 { font-weight: 700; }
-    a { text-decoration: none; color: inherit; }
-
-    /* Header & Hero */
-    header {
-      height: 100vh;
-      background: linear-gradient(rgba(15,23,42,0.9), rgba(15,23,42,0.95)), url('https://images.unsplash.com/photo-1518709268834-2b529c1f0b3e?q=80&w=2070&auto=format') center/cover no-repeat;
-      display: flex;
-      align-items: center;
-      position: relative;
-    }
-    .hero h1 {
-      font-size: 4.5rem;
-      background: linear-gradient(90deg, #a78bfa, #60a5fa);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .typewriter {
-      font-size: 2rem;
-      color: var(--accent);
-      font-weight: 500;
-    }
-    .btn {
-      display: inline-block;
-      padding: 12px 32px;
-      background: var(--primary);
-      color: white;
-      border-radius: 50px;
-      margin-top: 20px;
-      transition: 0.3s;
-    }
-    .btn:hover { background: var(--primary-dark); transform: translateY(-3px); }
-
-    /* Navbar */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      background: rgba(15,23,42,0.95);
-      backdrop-filter: blur(10px);
-      z-index: 1000;
-      padding: 1rem 0;
-    }
-    nav .container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 2rem;
-    }
-    nav a {
-      color: var(--text-light);
-      font-weight: 500;
-      transition: 0.3s;
-    }
-    nav a:hover, nav a.active { color: var(--primary); }
-
-    /* Section Titles */
-    .section-title {
-      text-align: center;
-      margin-bottom: 4rem;
-    }
-    .section-title h2 {
-      font-size: 3rem;
-      background: linear-gradient(90deg, var(--primary), var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    /* About */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-    }
-    .about-img {
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-    }
-    .about-img img { width: 100%; display: block; }
-
-    /* Skills */
-    .skill-bar {
-      background: var(--bg-light);
-      height: 10px;
-      border-radius: 5px;
-      overflow: hidden;
-      margin: 10px 0;
-    }
-    .skill-progress {
-      height: 100%;
-      background: linear-gradient(90deg, var(--primary), var(--accent));
-      width: 0;
-      transition: width 2s ease;
-    }
-
-    /* Resume Timeline */
-    .timeline {
-      position: relative;
-      padding-left: 40px;
-    }
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 15px;
-      top: 0;
-      bottom: 0;
-      width: 4px;
-      background: var(--primary);
-    }
-    .timeline-item {
-      position: relative;
-      margin-bottom: 3rem;
-    }
-    .timeline-item::before {
-      content: '';
-      position: absolute;
-      left: -26px;
-      top: 8px;
-      width: 16px;
-      height: 16px;
-      background: var(--primary);
-      border: 4px solid var(--bg);
-      border-radius: 50%;
-    }
-
-    /* Portfolio */
-    .portfolio-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
-      gap: 2rem;
-    }
-    .portfolio-card {
-      background: var(--bg-light);
-      border-radius: 16px;
-      overflow: hidden;
-      transition: 0.4s;
-    }
-    .portfolio-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
-    .portfolio-card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-
-    /* Certifications */
-    .cert-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
-      gap: 1.5rem;
-    }
-    .cert-card {
-      background: var(--bg-light);
-      padding: 1.5rem;
-      border-radius: 12px;
-      text-align: center;
-      transition: 0.3s;
-    }
-    .cert-card:hover { background: var(--primary); color: white; }
-
-    /* Theme Toggle */
-    .theme-toggle {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--text);
-    }
-
-    /* Footer */
-    footer {
-      background: #0a0e17;
-      padding: 3rem 0;
-      text-align: center;
+    .gradient-bg { background: linear-gradient(135deg, #0D47A1 0%, #1976D2 100%); }
+    .card-hover:hover { transform: translateY(-12px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+    .timeline::before { content: ''; position: absolute; left: 50%; width: 4px; height: 100%; background: #e0e0e0; transform: translateX(-50%); }
+    .timeline-item { position: relative; margin: 40px 0; }
+    .timeline-item:nth-child(even) { margin-left: auto; }
+    .timeline-item::before { content: ''; position: absolute; width: 20px; height: 20px; background: #FFCA28; border: 4px solid #0D47A1; border-radius: 50%; left: 50%; transform: translateX(-50%); top: 0; }
+    @media (max-width: 768px) {
+      .timeline::before { left: 30px; }
+      .timeline-item { margin-left: 0; padding-left: 60px; }
+      .timeline-item::before { left: 30px; }
+      .timeline-item:nth-child(even) { margin-left: 0; }
     }
   </style>
 </head>
-<body data-theme="dark">
+<body class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
+
+  <!-- Dark Mode Toggle (Top Right) -->
+  <button id="theme-toggle" class="fixed top-6 right-6 z-50 bg-gray-200 dark:bg-gray-700 p-3 rounded-full shadow-lg hover:shadow-xl transition">
+    <i class="fas fa-moon text-xl"></i>
+  </button>
 
   <!-- Navigation -->
-  <nav>
-    <div class="container">
-      <h3 style="color:var(--primary);">Chandan Kumar</h3>
-      <ul>
-        <li><a href="#home" class="active">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#resume">Resume</a></li>
-        <li><a href="#portfolio">Projects</a></li>
-        <li><a href="#certifications">Certifications</a></li>
-        <li><a href="#contact">Contact</a></li>
+  <nav class="fixed top-0 w-full bg-white dark:bg-gray-900 shadow-lg shadow-lg z-40 transition-colors">
+    <div class="container mx-auto px-6 py-5 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-primary">Chandan Kumar</h1>
+      <ul class="hidden md:flex space-x-10 text-lg">
+        <li><a href="#home" class="hover:text-primary transition">Home</a></li>
+        <li><a href="#about" class="hover:text-primary transition">About</a></li>
+        <li><a href="#experience" class="hover:text-primary transition">Experience</a></li>
+        <li><a href="#projects" class="hover:text-primary transition">Projects</a></li>
+        <li><a href="#skills" class="hover:text-primary transition">Skills</a></li>
+        <li><a href="#certifications" class="hover:text-primary transition">Certifications</a></li>
+        <li><a href="#contact" class="hover:text-primary transition">Contact</a></li>
+        <li><a href="/Portfolio/cv.html" target="_blank" class="bg-primary text-white px-6 py-2 rounded-full hover:bg-secondary transition">Resume</a></li>
       </ul>
-      <button class="theme-toggle" onclick="toggleTheme()">☀️</button>
+      <button class="md:hidden text-3xl" id="mobile-menu-btn">☰</button>
     </div>
   </nav>
 
   <!-- Hero Section -->
-  <header id="home">
-    <div class="container" data-aos="fade-up">
-      <h1>Chandan Kumar</h1>
-      <p class="typewriter" id="typewriter"></p>
-      <p style="font-size:1.3rem; margin:20px 0; max-width:800px;">
-        IIT Dhanbad Graduate • Data Scientist @ IBM • Building AI solutions that drive real business impact in Banking, Energy & Environment
-      </p>
-      <a href="#contact" class="btn">Get In Touch</a>
-      <a href="https://drive.google.com/file/d/1YOUR_RESUME_LINK/view?usp=sharing" target="_blank" class="btn" style="background:transparent; border:2px solid var(--primary); margin-left:15px;">
-        Download Resume
-      </a>
+  <section id="home" class="min-h-screen flex items-center justify-center gradient-bg text-white">
+    <div class="container mx-auto px-6 text-center">
+      <!-- Optional Photo - uncomment and add your photo to repo root or /assets -->
+      <!-- <img src="photo.jpg" alt="Chandan Kumar" class="w-48 h-48 rounded-full mx-auto mb-8 border-4 border-white shadow-2xl"> -->
+
+      <h1 class="text-5xl md:text-7xl font-extrabold mb-4">Chandan Kumar</h1>
+      <p class="text-2xl md:text-4xl font-semibold mb-6">Data Scientist & AI Engineer → IBM | IIT (ISM) Dhanbad | Super30 Alumnus</p>
+      <p class="text-xl md:text-2xl max-w-4xl mx-auto mb-12 opacity-95">8+ years delivering production-grade Generative AI, LLMs, RAG, Multi-Agent Systems, MLOps, and cloud-native ML solutions for Fortune 500 clients.</p>
+      <div class="flex justify-center space-x-8 mb-12">
+        <a href="https://www.linkedin.com/in/chandaniit" target="_blank" class="text-4xl hover:scale-110 hover:text-accent transition"><i class="fab fa-linkedin"></i></a>
+        <a href="https://github.com/cskiit" target="_blank" class="text-4xl hover:scale-110 hover:text-accent transition"><i class="fab fa-github"></i></a>
+        <a href="mailto:chandaniitismg@gmail.com" class="text-4xl hover:scale-110 hover:text-accent transition"><i class="fas fa-envelope"></i></a>
+      </div>
+      <div class="space-x-6">
+        <a href="#contact" class="bg-white text-primary px-10 py-4 rounded-full font-bold text-lg hover:bg-accent hover:text-primary transition">Get In Touch</a>
+        <a href="/Portfolio/cv.html" target="_blank" class="border-2 border-white px-10 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-primary transition">View Full Resume</a>
+      </div>
     </div>
-  </header>
+  </section>
 
   <!-- About -->
-  <section id="about">
-    <div class="container">
-      <div class="section-title" data-aos="fade-up">
-        <h2>About Me</h2>
+  <section id="about" class="py-24 bg-white dark:bg-gray-800">
+    <div class="container mx-auto px-6 max-w-5xl">
+      <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 text-primary">About Me</h2>
+      <p class="text-lg leading-relaxed text-center">IIT (ISM) Dhanbad graduate and Super30 alumnus, currently Data Scientist at IBM. 8 years of expertise in Generative AI, LLMs, RAG, Vector DBs, Multi-Agent Systems, MLOps, and cloud platforms (AWS Bedrock, Azure, GCP Vertex AI, Databricks). Proven track record building scalable AI solutions for Fortune 500 clients in finance, banking, energy, and environmental sectors. Passionate about agentic AI, responsible AI governance, and driving business impact through cutting-edge technology.</p>
+    </div>
+  </section>
+
+  <!-- Experience Timeline -->
+  <section id="experience" class="py-24 bg-gray-50 dark:bg-gray-900">
+    <div class="container mx-auto px-6 max-w-6xl">
+      <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 text-primary">Experience</h2>
+      <div class="relative timeline">
+        <!-- IBM -->
+        <div class="timeline-item w-full md:w-5/12 bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg card-hover transition">
+          <h3 class="text-2xl font-bold text-primary">Data Scientist → IBM</h3>
+          <p class="text-secondary mb-4">Mar 2024 – Present</p>
+          <ul class="list-disc pl-6 space-y-2">
+            <li>Led development of multi-agent systems using Watsonx Orchestrate, LangGraph, CrewAI with AI Governance → 25% efficiency gain.</li>
+            <li>Architected ethical, production-ready ML deployments for Fortune 500 clients.</li>
+          </ul>
+        </div>
+        <!-- Accenture -->
+        <div class="timeline-item w-full md:w-5/12 bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg card-hover transition">
+          <h3 class="text-2xl font-bold text-primary">Data Scientist → Accenture</h3>
+          <p class="text-secondary mb-4">Apr 2021 – Feb 2024</p>
+          <ul class="list-disc pl-6 space-y-2">
+            <li>Built PdfGPT (RAG + LLM), customer segmentation systems → 30% workflow improvement.</li>
+            <li>Designed scalable ML pipelines on AWS/Azure/GCP for banking & social media clients.</li>
+          </ul>
+        </div>
+        <!-- Add other experiences similarly -->
+        <!-- Clean Harbors, Capgemini, etc. (copy from your resume) -->
       </div>
-      <div class="about-grid">
-        <div data-aos="fade-right">
-          <div class="about-img">
-            <img src="https://via.placeholder.com/500x600/6366f1/ffffff?text=Chandan+Kumar" alt="Chandan Kumar">
+    </div>
+  </section>
+
+  <!-- Projects Grid -->
+  <section id="projects" class="py-24 bg-white dark:bg-gray-800">
+    <div class="container mx-auto px-6 max-w-7xl">
+      <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 text-primary">Featured Projects</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <!-- Project Card Example – duplicate for each project -->
+        <div class="bg-gray-50 dark:bg-gray-900 p-8 rounded-xl shadow-xl card-hover transition">
+          <h3 class="text-2xl font-bold text-primary">Watsonx Orchestrate Multi-Agent Platform</h3>
+          <p class="text-secondary mb-4">IBM · 2024-2025</p>
+          <p>Developed advanced multi-agent collaboration systems using LangGraph, CrewAI, Watsonx.ai with governance controls. Enabled intelligent task orchestration → 25% operational efficiency.</p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <span class="bg-blue-100 text-primary px-4 py-1 rounded-full text-sm">LangGraph</span>
+            <span class="bg-blue-100 text-primary px-4 py-1 rounded-full text-sm">CrewAI</span>
+            <span class="bg-blue-100 text-primary px-4 py-1 rounded-full text-sm">Watsonx</span>
+            <span class="bg-blue-100 text-primary px-4 py-1 rounded-full text-sm">MLOps</span>
           </div>
         </div>
-        <div data-aos="fade-left">
-          <h3>Passionate Data Scientist & AI Engineer</h3>
-          <p style="margin:20px 0; font-size:1.1rem; color:var(--text-light);">
-            8+ years delivering AI-driven solutions across finance, banking, energy, and environmental sectors. Expert in Generative AI, LLMs, RAG, MLOps, and cloud platforms (AWS, Azure, GCP).
-          </p>
-          <ul style="list-style:none; padding:0;">
-            <li><strong>🎂 Birthday:</strong> 15 May 1996</li>
-            <li><strong>📍 Location:</strong> Bangalore, India</li>
-            <li><strong>🎓 Education:</strong> B.Tech, IIT Dhanbad</li>
-            <li><strong>💼 Current:</strong> Data Scientist at IBM</li>
-          </ul>
-          <div style="margin-top:30px;">
-            <a href="mailto:chandaniitismg@gmail.com" class="btn">Email Me</a>
-            <a href="https://linkedin.com/in/chandaniit" target="_blank" style="margin-left:15px; font-size:2rem;">
-              <i class='bx bxl-linkedin-square' style="color:#0a66c2;"></i>
-            </a>
+
+        <!-- PdfGPT at Mizuho Bank -->
+        <div class="bg-gray-50 dark:bg-gray-900 p-8 rounded-xl shadow-xl card-hover transition">
+          <h3 class="text-2xl font-bold text-primary">PdfGPT – RAG + LLM Document Intelligence</h3>
+          <p class="text-secondary mb-4">Accenture · Mizuho Bank</p>
+          <p>Built interactive AI chat system for PDF summarization & feature extraction → reduced document review time by 30%.</p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <span class="bg-blue-100 text-primary px-4 py-1 rounded-full text-sm">LangChain</span>
+            <span class="bg-blue-100 text-primary px-4 py-1 rounded-full text-sm">RAG</span>
+            <span class="bg-blue-100 text-primary px-4 py-1 rounded-full text-sm">FastAPI</span>
+            <span class="bg-blue-100 text-primary px-4 py-1 rounded-full text-sm">Pinecone</span>
           </div>
+        </div>
+
+        <!-- Add all other projects from your resume the same way (Ulster Bank, Facebook, Waste Classification, Invoice Audit) -->
+
+        <!-- Optional placeholder for personal/open-source -->
+        <div class="bg-gradient-to-br from-primary to-secondary text-white p-12 rounded-xl text-center">
+          <p class="text-2xl font-bold">More personal LLM / RAG / Multi-Agent projects coming soon to GitHub...</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Skills -->
-  <section id="skills" style="background:var(--bg-light);">
-    <div class="container">
-      <div class="section-title" data-aos="fade-up">
-        <h2>Technical Skills</h2>
-      </div>
-      <div class="row" data-aos="fade-up">
-        <div class="col-lg-6">
-          <p>Data Science & AI <span style="float:right">90%</span></p>
-          <div class="skill-bar"><div class="skill-progress" style="width:90%"></div></div>
-
-          <p>Generative AI & LLMs <span style="float:right">88%</span></p>
-          <div class="skill-bar"><div class="skill-progress" style="width:88%"></div></div>
-
-          <p>Python & ML Frameworks <span style="float:right">92%</span></p>
-          <div class="skill-bar"><div class="skill-progress" style="width:92%"></div></div>
-
-          <p>MLOps & Deployment <span style="float:right">85%</span></p>
-          <div class="skill-bar"><div class="skill-progress" style="width:85%"></div></div>
-        </div>
-        <div class="col-lg-6">
-          <p>AWS Cloud <span style="float:right">82%</span></p>
-          <div class="skill-bar"><div class="skill-progress" style="width:82%"></div></div>
-
-          <p>Azure Cloud <span style="float:right">78%</span></p>
-          <div class="skill-bar"><div class="skill-progress" style="width:78%"></div></div>
-
-          <p>GCP & Vertex AI <span style="float:right">87%</span></p>
-          <div class="skill-bar"><div class="skill-progress" style="width:87%"></div></div>
-
-          <p>SQL & BigQuery <span style="float:right">90%</span></p>
-          <div class="skill-bar"><div class="skill-progress" style="width:90%"></div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Resume / Experience -->
-  <section id="resume">
-    <div class="container">
-      <div class="section-title" data-aos="fade-up">
-        <h2>Experience & Projects</h2>
-      </div>
-      <div class="timeline" data-aos="fade-up">
-        <div class="timeline-item">
-          <h3>IBM <span style="color:var(--primary);">— Data Scientist</span> <small style="float:right;">Mar 2024 – Present</small></h3>
-          <p>Leading AI Governance using Watsonx.Governance | Building responsible GenAI solutions</p>
-        </div>
-        <div class="timeline-item">
-          <h3>Accenture <span style="color:var(--primary);">— Data Scientist</span> <small style="float:right;">Apr 2021 – Feb 2024</small></h3>
-          <p>Built PdfGPT for Mizuho Bank (35% efficiency gain) | Automated ML pipelines on AWS for Ulster Bank & Facebook</p>
-        </div>
-        <div class="timeline-item">
-          <h3>Clean Harbors <span style="color:var(--primary);">— Data Scientist</span> <small style="float:right;">Jun 2018 – Jan 2021</small></h3>
-          <p>Waste Classification AI | Invoice Audit Automation using ML</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Portfolio -->
-  <section id="portfolio" style="background:var(--bg-light);">
-    <div class="container">
-      <div class="section-title">
-        <h2>Featured Projects</h2>
-      </div>
-      <div class="portfolio-grid">
-        <div class="portfolio-card" data-aos="fade-up">
-          <img src="https://via.placeholder.com/400x300/6366f1/ffffff?text=PdfGPT" alt="PdfGPT">
-          <div style="padding:20px;">
-            <h3>PdfGPT – Document Intelligence</h3>
-            <p>GenAI-powered summarization & chat for banking documents (Mizuho Bank)</p>
+  <section id="skills" class="py-24 bg-gray-50 dark:bg-gray-900">
+    <div class="container mx-auto px-6 max-w-6xl">
+      <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 text-primary">Technical Skills</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4">GenAI & LLMs</h3>
+          <div class="flex flex-wrap gap-3">
+            <span class="bg-accent text-primary px-4 py-2 rounded-full">LLMs</span>
+            <span class="bg-accent text-primary px-4 py-2 rounded-full">RAG</span>
+            <span class="bg-accent text-primary px-4 py-2 rounded-full">LangChain</span>
+            <span class="bg-accent text-primary px-4 py-2 rounded-full">CrewAI</span>
+            <!-- add all -->
           </div>
         </div>
-        <div class="portfolio-card" data-aos="fade-up" data-aos-delay="100">
-          <img src="https://via.placeholder.com/400x300/a78bfa/ffffff?text=AI+Governance" alt="AI Governance">
-          <div style="padding:20px;">
-            <h3>AI Governance Platform</h3>
-            <p>Watsonx.Governance for ethical AI lifecycle management at IBM</p>
-          </div>
-        </div>
-        <div class="portfolio-card" data-aos="fade-up" data-aos-delay="200">
-          <img src="https://via.placeholder.com/400x300/60a5fa/ffffff?text=Waste+AI" alt="Waste Classification">
-          <div style="padding:20px;">
-            <h3>Waste Classification AI</h3>
-            <p>Automated hazardous waste code prediction using Deep Learning</p>
-          </div>
-        </div>
+        <!-- repeat for other categories -->
       </div>
     </div>
   </section>
 
-  <!-- Certifications -->
-  <section id="certifications">
-    <div class="container">
-      <div class="section-title">
-        <h2>Certifications</h2>
-      </div>
-      <div class="cert-grid">
-        <div class="cert-card" data-aos="zoom-in"><h4>Stanford – Machine Learning</h4></div>
-        <div class="cert-card" data-aos="zoom-in" data-aos-delay="100"><h4>Microsoft – Generative AI</h4></div>
-        <div class="cert-card" data-aos="zoom-in" data-aos-delay="200"><h4>AWS Certified Cloud Practitioner</h4></div>
-        <div class="cert-card" data-aos="zoom-in" data-aos-delay="300"><h4>Azure Machine Learning</h4></div>
-        <div class="cert-card" data-aos="zoom-in" data-aos-delay="400"><h4>Duke – MLOps</h4></div>
-        <div class="cert-card" data-aos="zoom-in" data-aos-delay="500"><h4>Northwestern – Analytics & AI</h4></div>
-      </div>
-    </div>
-  </section>
+  <!-- Certifications (same grid as your cv.html) -->
+  <section id="certifications" class="py-24 bg-white dark:bg-gray-800"> ... (copy grid from your cv.html) </section>
 
   <!-- Contact -->
-  <section id="contact" style="background:var(--bg-light);">
-    <div class="container">
-      <div class="section-title">
-        <h2>Get In Touch</h2>
-      </div>
-      <div style="text-align:center; font-size:1.2rem;">
-        <p><strong>Email:</strong> chandaniitismg@gmail.com</p>
-        <p><strong>Phone:</strong> +91 9199000200</p>
-        <p><strong>Location:</strong> Bangalore, Karnataka, India</p>
-        <div style="margin-top:30px; font-size:3rem;">
-          <a href="https://linkedin.com/in/chandaniit" target="_blank"><i class='bx bxl-linkedin-square' style="color:#0a66c2;"></i></a>
-          <a href="mailto:chandaniitismg@gmail.com"><i class='bx bx-envelope' style="margin-left:20px; color:var(--primary);"></i></a>
-        </div>
+  <section id="contact" class="py-24 gradient-bg text-white">
+    <div class="container mx-auto px-6 text-center">
+      <h2 class="text-4xl md:text-5xl font-bold mb-12">Let's Connect</h2>
+      <p class="text-xl mb-8">+91-9199000200 | chandaniitismg@gmail.com</p>
+      <div class="flex justify-center space-x-8">
+        <a href="https://linkedin.com/in/chandaniit" target="_blank" class="text-4xl hover:scale-110 transition"><i class="fab fa-linkedin"></i></a>
+        <a href="https://github.com/cskiit" target="_blank" class="text-4xl hover:scale-110 transition"><i class="fab fa-github"></i></a>
       </div>
     </div>
   </section>
 
-  <footer>
-    <p>Designed & Built by Chandan Kumar © 2025 | Made with 💜 for AI</p>
-  </footer>
-
-  <!-- Scripts -->
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
-    AOS.init({ duration: 1000, once: true });
-
-    // Typewriter Effect
-    const texts = ["Data Scientist", "GenAI Engineer", "MLOps Specialist", "IITian", "AI Innovator"];
-    let count = 0, index = 0, current = "", letter = "";
-    (function type() {
-      if (count === texts.length) count = 0;
-      current = texts[count];
-      letter = current.slice(0, ++index);
-      document.getElementById("typewriter").textContent = letter;
-      if (letter.length === current.length) { count++; index = 0; setTimeout(type, 2000); }
-      else setTimeout(type, 100);
-    })();
-
-    // Theme Toggle
-    function toggleTheme() {
-      const body = document.body;
-      const current = body.getAttribute("data-theme");
-      body.setAttribute("data-theme", current === "dark" ? "light" : "dark");
-      localStorage.setItem("theme", current === "dark" ? "light" : "dark");
+    // Dark mode toggle
+    const toggle = document.getElementById('theme-toggle');
+    if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+      toggle.innerHTML = '<i class="fas fa-sun text-xl"></i>';
     }
-    // Load saved theme
-    if (localStorage.getItem("theme") === "light") document.body.setAttribute("data-theme", "light");
+    toggle.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+      toggle.innerHTML = document.documentElement.classList.contains('dark') ? '<i class="fas fa-sun text-xl"></i>' : '<i class="fas fa-moon text-xl"></i>';
+    });
   </script>
 </body>
 </html>
